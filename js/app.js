@@ -215,47 +215,54 @@ const App = {
    * Re-hydrates layout from a pure JSON payload
    */
   hydrateAll(data) {
-    if (!data) return;
+    if (!data) data = {}; // Trata null de forma a limpar tudo
 
-    // Restore text/number inputs
+    // Restore text/number inputs (limpa se não houver no payload)
     document.querySelectorAll('input[type="text"], input[type="number"]').forEach(input => {
-      if (input.id && data[input.id] !== undefined) {
-        input.value = data[input.id];
+      if (input.id) {
+        input.value = data[input.id] !== undefined ? data[input.id] : '';
       }
     });
 
     // Restore textareas
     document.querySelectorAll('textarea').forEach(ta => {
-      if (ta.id && data[ta.id] !== undefined) {
-        ta.value = data[ta.id];
+      if (ta.id) {
+        ta.value = data[ta.id] !== undefined ? data[ta.id] : '';
       }
     });
 
     // Restore checkboxes
     document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-      if (cb.id && data[cb.id] !== undefined) {
-        cb.checked = data[cb.id];
+      if (cb.id) {
+        cb.checked = data[cb.id] !== undefined ? data[cb.id] : false;
       }
     });
 
-    // Restore death save dots
+    // Restore death save dots (limpa os não preenchidos)
     ['falhas-dots', 'mortes-dots'].forEach(containerId => {
-      if (data[containerId]) {
-        const dots = document.querySelectorAll(`#${containerId} .death-save-dot`);
-        data[containerId].forEach((filled, i) => {
-          if (dots[i] && filled) dots[i].classList.add('filled');
-        });
-      }
+      const dots = document.querySelectorAll(`#${containerId} .death-save-dot`);
+      const filledArray = data[containerId] || []; // Se não tiver, vazio
+      dots.forEach((dot, i) => {
+        if (filledArray[i]) {
+          dot.classList.add('filled');
+        } else {
+          dot.classList.remove('filled');
+        }
+      });
     });
 
     // Restore portrait
-    if (data['portrait-src']) {
-      const portraitImg = document.getElementById('portrait-img');
-      const placeholder = document.getElementById('portrait-placeholder');
-      if (portraitImg && placeholder) {
+    const portraitImg = document.getElementById('portrait-img');
+    const placeholder = document.getElementById('portrait-placeholder');
+    if (portraitImg && placeholder) {
+      if (data['portrait-src']) {
         portraitImg.src = data['portrait-src'];
         portraitImg.style.display = 'block';
         placeholder.style.display = 'none';
+      } else {
+        portraitImg.removeAttribute('src');
+        portraitImg.style.display = 'none';
+        placeholder.style.display = ''; // Volta ao padrão flex/block do CSS nativo
       }
     }
   },
