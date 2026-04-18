@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ecos do Passado — Criador de fichas para RPG de mesa homebrew D&D 5e com temática cosmic horror gothic dark fantasy. Gere fichas em PDF editável e JPG.">
+  <title>Ecos do Passado — Ficha de Personagem</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/ornaments.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <header class="toolbar" data-html2canvas-ignore>
+    <div class="toolbar__title" id="auth-status">Ecos do Passado — Offline</div>
+    <nav class="toolbar__actions">
+      <button class="toolbar__btn" id="btn-logout" title="Retornar ao Vazio (Deslogar)" style="display: none;">
+        <span>Despertar</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       CLOUD AUTH MODAL (Login/Register)
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="cloud-modal" id="cloud-modal">
+    <div class="cloud-modal__content">
+      <h3 class="cloud-modal__title">O Vazio do Caçador</h3>
+      <p class="cloud-modal__desc">Um nome é tudo o que resta na escuridão. Adentre para restaurar suas memórias ou grave seu juramento para forjar um novo destino.</p>
+      
+      <div class="cloud-modal__form">
+        <div class="cloud-modal__field">
+          <label for="auth-username">Nome (Ex: Gherman)</label>
+          <input type="text" id="auth-username" autocomplete="off" placeholder="Seu nome no Pesadelo...">
+        </div>
+        <div class="cloud-modal__field">
+          <label for="auth-password">Senha</label>
+          <input type="password" id="auth-password" placeholder="Sua senha selada...">
+        </div>
+        
+        <p class="cloud-modal__error" id="auth-error"></p>
+
+        <div class="cloud-modal__actions">
+          <button class="cloud-btn cloud-btn--login" id="btn-cloud-login">Entrar no Sonho</button>
+          <button class="cloud-btn cloud-btn--register" id="btn-cloud-register">Forjar Novo Juramento</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DM PANEL (Floating Sidebar)
+       ═══════════════════════════════════════════════════════════ -->
+  <div id="dm-panel" class="dm-panel hidden" data-html2canvas-ignore>
+    <h3 class="dm-panel__title">Fichas da Mesa</h3>
+    <ul id="dm-sheet-list" class="dm-sheet-list"></ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SHEET CONTAINER
+       ═══════════════════════════════════════════════════════════ -->
+  <main class="sheet-wrapper" id="sheet-container">
+
+    <!-- ═════════════════════════════════════════════════════════
+         PAGE 1 — FRENTE (Stats, Skills, Combat)
+         ═════════════════════════════════════════════════════════ -->
+    <section class="sheet-page" id="page-1">
+      <!-- Aged paper edges -->
+      <div class="aged-edge aged-edge--top"></div>
+      <div class="aged-edge aged-edge--bottom"></div>
+      <div class="aged-edge aged-edge--left"></div>
+      <div class="aged-edge aged-edge--right"></div>
+
+      <!-- Page border with corners -->
+      <div class="page-border">
+        <div class="page-border__corner page-border__corner--tl">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 38V8C2 4.68 4.68 2 8 2H38" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <path d="M2 30V12C2 6.48 6.48 2 12 2H30" stroke="currentColor" stroke-width="0.5" opacity="0.4"/>
+            <circle cx="6" cy="6" r="2.5" fill="currentColor" opacity="0.6"/>
+            <path d="M2 16C8 16 10 14 10 8" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+            <path d="M14 2C14 8 16 10 22 10" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
+            <!-- Floral curl -->
+            <path d="M4 22C4 18 6 14 12 14C10 18 12 22 8 24" stroke="currentColor" stroke-width="0.6" opacity="0.4" fill="none"/>
+            <path d="M20 4C18 4 14 6 14 10C18 8 22 10 24 6" stroke="currentColor" stroke-width="0.6" opacity="0.4" fill="none"/>
+          </svg>
+        </div>
+        <div class="page-border__corner page-border__corner--tr">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 38V8C2 4.68 4.68 2 8 2H38" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <path d="M2 30V12C2 6.48 6.48 2 12 2H30" stroke="currentColor" stroke-width="0.5" opacity="0.4"/>
+            <circle cx="6" cy="6" r="2.5" fill="currentColor" opacity="0.6"/>
+            <path d="M2 16C8 16 10 14 10 8" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+            <path d="M14 2C14 8 16 10 22 10" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
+            <path d="M4 22C4 18 6 14 12 14C10 18 12 22 8 24" stroke="currentColor" stroke-width="0.6" opacity="0.4" fill="none"/>
+            <path d="M20 4C18 4 14 6 14 10C18 8 22 10 24 6" stroke="currentColor" stroke-width="0.6" opacity="0.4" fill="none"/>
+          </svg>
+        </div>
+        <div class="page-border__corner page-border__corner--bl">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 38V8C2 4.68 4.68 2 8 2H38" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <path d="M2 30V12C2 6.48 6.48 2 12 2H30" stroke="currentColor" stroke-width="0.5" opacity="0.4"/>
+            <circle cx="6" cy="6" r="2.5" fill="currentColor" opacity="0.6"/>
+            <path d="M2 16C8 16 10 14 10 8" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+            <path d="M14 2C14 8 16 10 22 10" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
+            <path d="M4 22C4 18 6 14 12 14C10 18 12 22 8 24" stroke="currentColor" stroke-width="0.6" opacity="0.4" fill="none"/>
+            <path d="M20 4C18 4 14 6 14 10C18 8 22 10 24 6" stroke="currentColor" stroke-width="0.6" opacity="0.4" fill="none"/>
+          </svg>
+        </div>
+        <div class="page-border__corner page-border__corner--br">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 38V8C2 4.68 4.68 2 8 2H38" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <path d="M2 30V12C2 6.48 6.48 2 12 2H30" stroke="currentColor" stroke-width="0.5" opacity="0.4"/>
+            <circle cx="6" cy="6" r="2.5" fill="currentColor" opacity="0.6"/>
+            <path d="M2 16C8 16 10 14 10 8" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+            <path d="M14 2C14 8 16 10 22 10" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
+            <path d="M4 22C4 18 6 14 12 14C10 18 12 22 8 24" stroke="currentColor" stroke-width="0.6" opacity="0.4" fill="none"/>
+            <path d="M20 4C18 4 14 6 14 10C18 8 22 10 24 6" stroke="currentColor" stroke-width="0.6" opacity="0.4" fill="none"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Page Content -->
+      <div class="page-content page1-content">
+
+        <!-- ── HEADER: Character Name ──────────────────── -->
+        <div class="header-section">
+          <input type="text" id="char-name" class="char-name-input" placeholder="Nome do Personagem">
+          <div class="gothic-underline" style="margin-bottom: 12px;"></div>
+          
+          <!-- NÍVEL ATUAL -->
+          <div class="level-top-field" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <span class="hp-field__label" style="margin: 0; font-size: 0.8rem;">NÍVEL ATUAL</span>
+            <input type="number" class="hp-field__value hp-field__value--small" id="nivel" value="1" min="1" max="20" style="width: 50px; text-align: center; display: inline-block;">
+          </div>
+        </div>
+
+        <!-- ── HEADER ROW: Antecedente / Linhagem ─────────── -->
+        <div class="header-row">
+          <div class="header-field">
+            <label class="header-field__label" for="antecedente">Antecedente</label>
+            <input type="text" id="antecedente" class="header-field__input" placeholder="—">
+          </div>
+
+          <div class="header-field">
+            <label class="header-field__label" for="linhagem">Linhagem</label>
+            <input type="text" id="linhagem" class="header-field__input" placeholder="—">
+          </div>
+        </div>
+
+        <!-- ── RITO (centered below header row) ───────────── -->
+        <div class="rito-header">
+          <input type="text" id="rito" class="header-field__input header-field__input--rito" placeholder="—">
+          <label class="header-field__label" for="rito">Rito</label>
+        </div>
+
+        <!-- ── ATTRIBUTES HEXAGONAL GRID ──────────────────── -->
+        <div class="attributes-grid">
+
+          <!-- Força (top-left) -->
+          <div class="attribute-block attr-top-left">
+            <div class="attribute-block__frame">
+              <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="60" cy="60" r="56" fill="none" stroke="#3d2b1f" stroke-width="2.5"/>
+                <circle cx="60" cy="60" r="50" fill="none" stroke="#3d2b1f" stroke-width="0.8" opacity="0.35"/>
+                <circle cx="60" cy="60" r="44" fill="none" stroke="#3d2b1f" stroke-width="1.8"/>
+                <path d="M48 5 C52 10 56 12 60 12 C64 12 68 10 72 5 C68 8 64 9 60 9 C56 9 52 8 48 5Z" fill="#3d2b1f" opacity="0.6"/>
+                <path d="M48 115 C52 110 56 108 60 108 C64 108 68 110 72 115 C68 112 64 111 60 111 C56 111 52 112 48 115Z" fill="#3d2b1f" opacity="0.6"/>
+                <path d="M5 48 C10 52 12 56 12 60 C12 64 10 68 5 72 C8 68 9 64 9 60 C9 56 8 52 5 48Z" fill="#3d2b1f" opacity="0.5"/>
+                <path d="M115 48 C110 52 108 56 108 60 C108 64 110 68 115 72 C112 68 111 64 111 60 C111 56 112 52 115 48Z" fill="#3d2b1f" opacity="0.5"/>
+                <circle cx="18" cy="18" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="102" cy="18" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="18" cy="102" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="102" cy="102" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+              </svg>
+              <input type="number" class="attribute-block__value" id="forca-val" value="10" min="1" max="30">
+              <input type="text" class="attribute-block__mod" id="forca-mod" value="0" readonly tabindex="-1">
+            </div>
+            <span class="attribute-block__label">Força</span>
+          </div>
+
+          <!-- Center Stats Column -->
+          <div class="center-stats">
+            <!-- Iniciativa & Proficiência -->
+            <div class="center-stats__row">
+              <div class="center-stat">
+                <div class="center-stat__frame">
+                  <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M28 2 L44 10 L52 28 L44 46 L28 54 L12 46 L4 28 L12 10 Z"
+                          fill="none" stroke="#3d2b1f" stroke-width="1.5"/>
+                    <path d="M28 5 L42 12 L49 28 L42 44 L28 51 L14 44 L7 28 L14 12 Z"
+                          fill="none" stroke="#3d2b1f" stroke-width="0.4" opacity="0.3"/>
+                  </svg>
+                  <input type="text" class="center-stat__value" id="iniciativa" value="+0" readonly tabindex="-1">
+                </div>
+                <span class="center-stat__label">Iniciativa</span>
+              </div>
+              <div class="center-stat">
+                <div class="center-stat__frame">
+                  <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M28 2 L44 10 L52 28 L44 46 L28 54 L12 46 L4 28 L12 10 Z"
+                          fill="none" stroke="#3d2b1f" stroke-width="1.5"/>
+                    <path d="M28 5 L42 12 L49 28 L42 44 L28 51 L14 44 L7 28 L14 12 Z"
+                          fill="none" stroke="#3d2b1f" stroke-width="0.4" opacity="0.3"/>
+                  </svg>
+                  <input type="number" class="center-stat__value" id="proficiencia" value="2">
+                </div>
+                <span class="center-stat__label">Proficiência</span>
+              </div>
+            </div>
+
+            <!-- Hunter Rune Ornament -->
+            <div class="center-ornament">
+              <img src="hunter_rune.png" alt="Runa do Caçador" class="center-ornament__img">
+            </div>
+
+            <!-- Deslocamento & Discernimento -->
+            <div class="center-stats__row">
+              <div class="center-stat">
+                <div class="center-stat__frame">
+                  <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M28 2 L44 10 L52 28 L44 46 L28 54 L12 46 L4 28 L12 10 Z"
+                          fill="none" stroke="#3d2b1f" stroke-width="1.5"/>
+                    <path d="M28 5 L42 12 L49 28 L42 44 L28 51 L14 44 L7 28 L14 12 Z"
+                          fill="none" stroke="#3d2b1f" stroke-width="0.4" opacity="0.3"/>
+                  </svg>
+                  <input type="text" class="center-stat__value" id="deslocamento" value="6q" style="font-size: 1.1rem;">
+                </div>
+                <span class="center-stat__label">Deslocamento</span>
+              </div>
+              <div class="center-stat">
+                <div class="center-stat__frame">
+                  <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M28 2 L44 10 L52 28 L44 46 L28 54 L12 46 L4 28 L12 10 Z"
+                          fill="none" stroke="#3d2b1f" stroke-width="1.5"/>
+                    <path d="M28 5 L42 12 L49 28 L42 44 L28 51 L14 44 L7 28 L14 12 Z"
+                          fill="none" stroke="#3d2b1f" stroke-width="0.4" opacity="0.3"/>
+                  </svg>
+                  <input type="number" class="center-stat__value" id="discernimento" value="0">
+                </div>
+                <span class="center-stat__label">Discernimento</span>
+              </div>
+            </div>
+
+            <!-- Falhas & Mortes -->
+            <div class="death-saves">
+              <span class="death-saves__label blood-accent">Falhas</span>
+              <div class="death-saves__dots" id="falhas-dots">
+                <span class="death-save-dot" data-index="0"></span>
+                <span class="death-save-dot" data-index="1"></span>
+                <span class="death-save-dot" data-index="2"></span>
+              </div>
+            </div>
+            <div class="death-saves">
+              <span class="death-saves__label blood-accent">Mortes</span>
+              <div class="death-saves__dots" id="mortes-dots">
+                <span class="death-save-dot" data-index="0"></span>
+                <span class="death-save-dot" data-index="1"></span>
+                <span class="death-save-dot" data-index="2"></span>
+              </div>
+            </div>
+
+            <!-- Marcas / Ecos / CA -->
+            <div class="combat-stats-row" style="margin-top: 1mm;">
+              <div class="combat-stat">
+                <input type="number" class="combat-stat__value" id="marcas" value="0">
+                <span class="combat-stat__label">Marcas</span>
+              </div>
+              <div class="combat-stat">
+                <input type="number" class="combat-stat__value" id="ecos" value="0">
+                <span class="combat-stat__label">Ecos</span>
+              </div>
+              <div class="combat-stat">
+                <input type="number" class="combat-stat__value" id="ca" value="10">
+                <span class="combat-stat__label">CA</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Inteligência (top-right) -->
+          <div class="attribute-block attr-top-right">
+            <div class="attribute-block__frame">
+              <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="60" cy="60" r="56" fill="none" stroke="#3d2b1f" stroke-width="2.5"/>
+                <circle cx="60" cy="60" r="50" fill="none" stroke="#3d2b1f" stroke-width="0.8" opacity="0.35"/>
+                <circle cx="60" cy="60" r="44" fill="none" stroke="#3d2b1f" stroke-width="1.8"/>
+                <path d="M48 5 C52 10 56 12 60 12 C64 12 68 10 72 5 C68 8 64 9 60 9 C56 9 52 8 48 5Z" fill="#3d2b1f" opacity="0.6"/>
+                <path d="M48 115 C52 110 56 108 60 108 C64 108 68 110 72 115 C68 112 64 111 60 111 C56 111 52 112 48 115Z" fill="#3d2b1f" opacity="0.6"/>
+                <path d="M5 48 C10 52 12 56 12 60 C12 64 10 68 5 72 C8 68 9 64 9 60 C9 56 8 52 5 48Z" fill="#3d2b1f" opacity="0.5"/>
+                <path d="M115 48 C110 52 108 56 108 60 C108 64 110 68 115 72 C112 68 111 64 111 60 C111 56 112 52 115 48Z" fill="#3d2b1f" opacity="0.5"/>
+                <circle cx="18" cy="18" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="102" cy="18" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="18" cy="102" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="102" cy="102" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+              </svg>
+              <input type="number" class="attribute-block__value" id="inteligencia-val" value="10" min="1" max="30">
+              <input type="text" class="attribute-block__mod" id="inteligencia-mod" value="0" readonly tabindex="-1">
+            </div>
+            <span class="attribute-block__label">Inteligência</span>
+          </div>
+
+          <!-- Destreza (mid-left) -->
+          <div class="attribute-block attr-mid-left">
+            <div class="attribute-block__frame">
+              <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="60" cy="60" r="56" fill="none" stroke="#3d2b1f" stroke-width="2.5"/>
+                <circle cx="60" cy="60" r="50" fill="none" stroke="#3d2b1f" stroke-width="0.8" opacity="0.35"/>
+                <circle cx="60" cy="60" r="44" fill="none" stroke="#3d2b1f" stroke-width="1.8"/>
+                <path d="M48 5 C52 10 56 12 60 12 C64 12 68 10 72 5 C68 8 64 9 60 9 C56 9 52 8 48 5Z" fill="#3d2b1f" opacity="0.6"/>
+                <path d="M48 115 C52 110 56 108 60 108 C64 108 68 110 72 115 C68 112 64 111 60 111 C56 111 52 112 48 115Z" fill="#3d2b1f" opacity="0.6"/>
+                <path d="M5 48 C10 52 12 56 12 60 C12 64 10 68 5 72 C8 68 9 64 9 60 C9 56 8 52 5 48Z" fill="#3d2b1f" opacity="0.5"/>
+                <path d="M115 48 C110 52 108 56 108 60 C108 64 110 68 115 72 C112 68 111 64 111 60 C111 56 112 52 115 48Z" fill="#3d2b1f" opacity="0.5"/>
+                <circle cx="18" cy="18" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="102" cy="18" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="18" cy="102" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="102" cy="102" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+              </svg>
+              <input type="number" class="attribute-block__value" id="destreza-val" value="10" min="1" max="30">
+              <input type="text" class="attribute-block__mod" id="destreza-mod" value="0" readonly tabindex="-1">
+            </div>
+            <span class="attribute-block__label">Destreza</span>
+          </div>
+
+          <!-- Sabedoria (mid-right) -->
+          <div class="attribute-block attr-mid-right">
+            <div class="attribute-block__frame">
+              <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="60" cy="60" r="56" fill="none" stroke="#3d2b1f" stroke-width="2.5"/>
+                <circle cx="60" cy="60" r="50" fill="none" stroke="#3d2b1f" stroke-width="0.8" opacity="0.35"/>
+                <circle cx="60" cy="60" r="44" fill="none" stroke="#3d2b1f" stroke-width="1.8"/>
+                <path d="M48 5 C52 10 56 12 60 12 C64 12 68 10 72 5 C68 8 64 9 60 9 C56 9 52 8 48 5Z" fill="#3d2b1f" opacity="0.6"/>
+                <path d="M48 115 C52 110 56 108 60 108 C64 108 68 110 72 115 C68 112 64 111 60 111 C56 111 52 112 48 115Z" fill="#3d2b1f" opacity="0.6"/>
+                <path d="M5 48 C10 52 12 56 12 60 C12 64 10 68 5 72 C8 68 9 64 9 60 C9 56 8 52 5 48Z" fill="#3d2b1f" opacity="0.5"/>
+                <path d="M115 48 C110 52 108 56 108 60 C108 64 110 68 115 72 C112 68 111 64 111 60 C111 56 112 52 115 48Z" fill="#3d2b1f" opacity="0.5"/>
+                <circle cx="18" cy="18" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="102" cy="18" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="18" cy="102" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="102" cy="102" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+              </svg>
+              <input type="number" class="attribute-block__value" id="sabedoria-val" value="10" min="1" max="30">
+              <input type="text" class="attribute-block__mod" id="sabedoria-mod" value="0" readonly tabindex="-1">
+            </div>
+            <span class="attribute-block__label">Sabedoria</span>
+          </div>
+
+          <!-- Constituição (bottom-left) -->
+          <div class="attribute-block attr-bot-left">
+            <div class="attribute-block__frame">
+              <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="60" cy="60" r="56" fill="none" stroke="#3d2b1f" stroke-width="2.5"/>
+                <circle cx="60" cy="60" r="50" fill="none" stroke="#3d2b1f" stroke-width="0.8" opacity="0.35"/>
+                <circle cx="60" cy="60" r="44" fill="none" stroke="#3d2b1f" stroke-width="1.8"/>
+                <path d="M48 5 C52 10 56 12 60 12 C64 12 68 10 72 5 C68 8 64 9 60 9 C56 9 52 8 48 5Z" fill="#3d2b1f" opacity="0.6"/>
+                <path d="M48 115 C52 110 56 108 60 108 C64 108 68 110 72 115 C68 112 64 111 60 111 C56 111 52 112 48 115Z" fill="#3d2b1f" opacity="0.6"/>
+                <path d="M5 48 C10 52 12 56 12 60 C12 64 10 68 5 72 C8 68 9 64 9 60 C9 56 8 52 5 48Z" fill="#3d2b1f" opacity="0.5"/>
+                <path d="M115 48 C110 52 108 56 108 60 C108 64 110 68 115 72 C112 68 111 64 111 60 C111 56 112 52 115 48Z" fill="#3d2b1f" opacity="0.5"/>
+                <circle cx="18" cy="18" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="102" cy="18" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="18" cy="102" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="102" cy="102" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+              </svg>
+              <input type="number" class="attribute-block__value" id="constituicao-val" value="10" min="1" max="30">
+              <input type="text" class="attribute-block__mod" id="constituicao-mod" value="0" readonly tabindex="-1">
+            </div>
+            <span class="attribute-block__label">Constituição</span>
+          </div>
+
+          <!-- Carisma (bottom-right) -->
+          <div class="attribute-block attr-bot-right">
+            <div class="attribute-block__frame">
+              <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="60" cy="60" r="56" fill="none" stroke="#3d2b1f" stroke-width="2.5"/>
+                <circle cx="60" cy="60" r="50" fill="none" stroke="#3d2b1f" stroke-width="0.8" opacity="0.35"/>
+                <circle cx="60" cy="60" r="44" fill="none" stroke="#3d2b1f" stroke-width="1.8"/>
+                <path d="M48 5 C52 10 56 12 60 12 C64 12 68 10 72 5 C68 8 64 9 60 9 C56 9 52 8 48 5Z" fill="#3d2b1f" opacity="0.6"/>
+                <path d="M48 115 C52 110 56 108 60 108 C64 108 68 110 72 115 C68 112 64 111 60 111 C56 111 52 112 48 115Z" fill="#3d2b1f" opacity="0.6"/>
+                <path d="M5 48 C10 52 12 56 12 60 C12 64 10 68 5 72 C8 68 9 64 9 60 C9 56 8 52 5 48Z" fill="#3d2b1f" opacity="0.5"/>
+                <path d="M115 48 C110 52 108 56 108 60 C108 64 110 68 115 72 C112 68 111 64 111 60 C111 56 112 52 115 48Z" fill="#3d2b1f" opacity="0.5"/>
+                <circle cx="18" cy="18" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="102" cy="18" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="18" cy="102" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="102" cy="102" r="1.5" fill="#3d2b1f" opacity="0.3"/>
+              </svg>
+              <input type="number" class="attribute-block__value" id="carisma-val" value="10" min="1" max="30">
+              <input type="text" class="attribute-block__mod" id="carisma-mod" value="0" readonly tabindex="-1">
+            </div>
+            <span class="attribute-block__label">Carisma</span>
+          </div>
+        </div>
+
+        <!-- ── HP SECTION ────────────────────────────────────── -->
+        <div class="divider">
+          <div class="divider__line"></div>
+          <svg class="divider__ornament" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 1 L11 5 L15 8 L11 11 L8 15 L5 11 L1 8 L5 5 Z" fill="currentColor" opacity="0.6"/>
+            <path d="M8 3 L10 6 L13 8 L10 10 L8 13 L6 10 L3 8 L6 6 Z" fill="none" stroke="currentColor" stroke-width="0.3" opacity="0.3"/>
+          </svg>
+          <div class="divider__line"></div>
+        </div>
+
+        <div class="hp-section">
+          <div class="hp-field hp-field--small">
+            <input type="number" class="hp-field__value hp-field__value--small" id="pv-temp" value="0">
+            <span class="hp-field__label">PV Temp.</span>
+          </div>
+
+          <div class="hp-field hp-field--pv">
+            <div class="hp-current">
+              <input type="number" class="hp-field__value" id="pv-atual" value="0">
+              <span class="hp-current__slash">/</span>
+              <input type="number" class="hp-field__value" id="pv-max" value="0">
+            </div>
+            <span class="hp-field__label">Pontos de Vida</span>
+            <input type="text" class="hit-dice__inline" id="dados-vida-tipo" placeholder="2d10">
+          </div>
+
+          <div class="hp-field hp-field--small">
+            <input type="number" class="hp-field__value hp-field__value--small" id="ferocidade" value="0">
+            <span class="hp-field__label">Ferocidade</span>
+          </div>
+        </div>
+
+
+
+        <!-- ── SKILLS SECTION (Full Width) ──── -->
+        <div class="skills-section" style="margin-bottom: 3mm;">
+          <span class="section-title section-title--left">Perícias</span>
+          
+          <!-- Força -->
+          <div class="skill-group">
+            <div class="skill-group-header">Força</div>
+            <div class="skill-item">
+              <input type="checkbox" id="skill-atletismo-prof">
+              <input type="text" id="skill-atletismo-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+              <span class="skill-item__name">Atletismo</span>
+            </div>
+          </div>
+
+          <!-- Destreza -->
+          <div class="skill-group">
+            <div class="skill-group-header">Destreza</div>
+            <div class="skill-item">
+              <input type="checkbox" id="skill-acrobacia-prof">
+              <input type="text" id="skill-acrobacia-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+              <span class="skill-item__name">Acrobacia</span>
+            </div>
+            <div class="skill-item">
+              <input type="checkbox" id="skill-furtividade-prof">
+              <input type="text" id="skill-furtividade-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+              <span class="skill-item__name">Furtividade</span>
+            </div>
+            <div class="skill-item">
+              <input type="checkbox" id="skill-prestidigitacao-prof">
+              <input type="text" id="skill-prestidigitacao-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+              <span class="skill-item__name">Prestidigitação</span>
+            </div>
+          </div>
+
+          <!-- Inteligência -->
+          <div class="skill-group">
+            <div class="skill-group-header">Inteligência</div>
+            <div class="skill-item">
+              <input type="checkbox" id="skill-arcanismo-prof">
+              <input type="text" id="skill-arcanismo-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+              <span class="skill-item__name">Arcanismo</span>
+            </div>
+            <div class="skill-item">
+              <input type="checkbox" id="skill-historia-prof">
+              <input type="text" id="skill-historia-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+              <span class="skill-item__name">História</span>
+            </div>
+            <div class="skill-item">
+              <input type="checkbox" id="skill-investigacao-prof">
+              <input type="text" id="skill-investigacao-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+              <span class="skill-item__name">Investigação</span>
+            </div>
+            <div class="skill-item">
+              <input type="checkbox" id="skill-natureza-prof">
+              <input type="text" id="skill-natureza-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+              <span class="skill-item__name">Natureza</span>
+            </div>
+            <div class="skill-item">
+              <input type="checkbox" id="skill-religiao-prof">
+              <input type="text" id="skill-religiao-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+              <span class="skill-item__name">Religião</span>
+            </div>
+          </div>
+
+          <!-- Sabedoria -->
+          <div class="skill-group">
+            <div class="skill-group-header">Sabedoria</div>
+            <div class="skill-item">
+              <input type="checkbox" id="skill-animais-prof">
+              <input type="text" id="skill-animais-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+              <span class="skill-item__name">Lidar com Animais</span>
+            </div>
+            <div class="skill-item">
+              <input type="checkbox" id="skill-medicina-prof">
+              <input type="text" id="skill-medicina-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+              <span class="skill-item__name">Medicina</span>
+            </div>
+            <div class="skill-item">
+              <input type="checkbox" id="skill-percepcao-prof">
+              <input type="text" id="skill-percepcao-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+              <span class="skill-item__name">Percepção</span>
+            </div>
+            <div class="skill-item">
+              <input type="checkbox" id="skill-sobrevivencia-prof">
+              <input type="text" id="skill-sobrevivencia-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+              <span class="skill-item__name">Sobrevivência</span>
+            </div>
+          </div>
+
+          <!-- Carisma -->
+          <div class="skill-group">
+            <div class="skill-group-header">Carisma</div>
+            <div class="skill-item">
+              <input type="checkbox" id="skill-atuacao-prof">
+              <input type="text" id="skill-atuacao-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+              <span class="skill-item__name">Atuação</span>
+            </div>
+            <div class="skill-item">
+              <input type="checkbox" id="skill-blefar-prof">
+              <input type="text" id="skill-blefar-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+              <span class="skill-item__name">Blefar</span>
+            </div>
+            <div class="skill-item">
+              <input type="checkbox" id="skill-intimidacao-prof">
+              <input type="text" id="skill-intimidacao-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+              <span class="skill-item__name">Intimidação</span>
+            </div>
+            <div class="skill-item">
+              <input type="checkbox" id="skill-persuasao-prof">
+              <input type="text" id="skill-persuasao-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+              <span class="skill-item__name">Persuasão</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── LOWER SECTION: Class | Equipment ──── -->
+        <div class="lower-section">
+
+          <!-- LEFT COLUMN: Class, Proficiencies -->
+          <div class="lower-left">
+
+            <!-- Testes de Habilidade dos Atributos -->
+            <div class="skills-section" style="margin-bottom: 3mm;">
+              <span class="section-title section-title--left">Testes de Habilidade</span>
+              <div class="skill-group" style="margin-bottom: 0;">
+                <div class="skill-item">
+                  <input type="checkbox" id="save-forca-prof">
+                  <input type="text" id="save-forca-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+                  <span class="skill-item__name">Força</span>
+                </div>
+                <div class="skill-item">
+                  <input type="checkbox" id="save-destreza-prof">
+                  <input type="text" id="save-destreza-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+                  <span class="skill-item__name">Destreza</span>
+                </div>
+                <div class="skill-item">
+                  <input type="checkbox" id="save-constituicao-prof">
+                  <input type="text" id="save-constituicao-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+                  <span class="skill-item__name">Constituição</span>
+                </div>
+                <div class="skill-item">
+                  <input type="checkbox" id="save-inteligencia-prof">
+                  <input type="text" id="save-inteligencia-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+                  <span class="skill-item__name">Inteligência</span>
+                </div>
+                <div class="skill-item">
+                  <input type="checkbox" id="save-sabedoria-prof">
+                  <input type="text" id="save-sabedoria-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+                  <span class="skill-item__name">Sabedoria</span>
+                </div>
+                <div class="skill-item">
+                  <input type="checkbox" id="save-carisma-prof">
+                  <input type="text" id="save-carisma-mod" class="skill-item__mod" value="+0" readonly tabindex="-1">
+                  <span class="skill-item__name">Carisma</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Habilidades -->
+            <div class="equipment-section" style="margin-bottom: 3mm;">
+              <span class="section-title section-title--left">Habilidades</span>
+              <textarea id="habilidades" placeholder="Descreva as características da sua classe, magias se houver, etc..." rows="6"></textarea>
+            </div>
+
+            <!-- Descoberta -->
+            <div class="class-section">
+              <div class="discovery-field">
+                <span class="class-section__label">Descoberta</span>
+                <input type="number" class="discovery-field__value" id="descoberta" value="0">
+              </div>
+            </div>
+
+            <!-- Proficiências -->
+            <div class="proficiencies-section">
+              <span class="section-title section-title--left">Proficiências</span>
+              <textarea id="proficiencias" placeholder="Armaduras: Escudos&#10;Armas: Simples, Marciais, Caçadores&#10;Ferramentas: Ferramentas da Oficina" rows="3"></textarea>
+            </div>
+
+            <!-- Talento -->
+            <div class="talent-section">
+              <span class="section-title section-title--left">Talento</span>
+              <div class="class-section__field">
+                <input type="text" class="class-section__value" id="talento" placeholder="Sortudo (Origem)">
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN: Equipment -->
+          <div class="lower-right">
+
+            <!-- Armadura -->
+            <div class="equipment-section">
+              <span class="section-title section-title--left">Armadura</span>
+              <textarea id="armadura" placeholder="Chapéu (Forasteiro): CA+1 / +2 em Furt.&#10;Traje (Forasteiro): CA+1 / +2 em Pers.&#10;Luvas (Forasteiro): CA+1 / +2 em Prest.&#10;Calças (Forasteiro): CA+1 / +2 em Int.&#10;-Full set bônus: +1d6 em rol. de Esquiva" rows="5"></textarea>
+            </div>
+
+            <!-- Armas -->
+            <div class="equipment-section">
+              <span class="section-title section-title--left">Armas</span>
+              <textarea id="armas" placeholder="Bastão Enroscado&#10;- 2d4 (Concussão/Cortante)&#10;- Acuidade, Alcance (3q)&#10;&#10;Pistola de Caçador&#10;- 1d4 (Necrótico)&#10;- Alcance (6/12q)&#10;- Estável" rows="10"></textarea>
+            </div>
+
+            <!-- Outros -->
+            <div class="equipment-section equipment-section--flex">
+              <span class="section-title section-title--left">Outros Itens</span>
+              <textarea id="outros-equip" placeholder="Balas de mercúrio (x10)&#10;Moedas de ouro (x10)"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Page break for PDF export -->
+    <div class="page-break html2pdf__page-break"></div>
+
+    <!-- ═════════════════════════════════════════════════════════
+         PAGE 2 — VERSO (Portrait, Backstory, Items)
+         ═════════════════════════════════════════════════════════ -->
+    <section class="sheet-page" id="page-2">
+      <!-- Aged paper edges -->
+      <div class="aged-edge aged-edge--top"></div>
+      <div class="aged-edge aged-edge--bottom"></div>
+      <div class="aged-edge aged-edge--left"></div>
+      <div class="aged-edge aged-edge--right"></div>
+
+      <!-- Page border with corners -->
+      <div class="page-border">
+        <div class="page-border__corner page-border__corner--tl">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 38V8C2 4.68 4.68 2 8 2H38" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <circle cx="6" cy="6" r="2.5" fill="currentColor" opacity="0.6"/>
+            <path d="M2 16C8 16 10 14 10 8" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+            <path d="M4 22C4 18 6 14 12 14C10 18 12 22 8 24" stroke="currentColor" stroke-width="0.6" opacity="0.4" fill="none"/>
+          </svg>
+        </div>
+        <div class="page-border__corner page-border__corner--tr">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 38V8C2 4.68 4.68 2 8 2H38" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <circle cx="6" cy="6" r="2.5" fill="currentColor" opacity="0.6"/>
+            <path d="M2 16C8 16 10 14 10 8" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+            <path d="M4 22C4 18 6 14 12 14C10 18 12 22 8 24" stroke="currentColor" stroke-width="0.6" opacity="0.4" fill="none"/>
+          </svg>
+        </div>
+        <div class="page-border__corner page-border__corner--bl">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 38V8C2 4.68 4.68 2 8 2H38" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <circle cx="6" cy="6" r="2.5" fill="currentColor" opacity="0.6"/>
+            <path d="M2 16C8 16 10 14 10 8" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+            <path d="M4 22C4 18 6 14 12 14C10 18 12 22 8 24" stroke="currentColor" stroke-width="0.6" opacity="0.4" fill="none"/>
+          </svg>
+        </div>
+        <div class="page-border__corner page-border__corner--br">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 38V8C2 4.68 4.68 2 8 2H38" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <circle cx="6" cy="6" r="2.5" fill="currentColor" opacity="0.6"/>
+            <path d="M2 16C8 16 10 14 10 8" stroke="currentColor" stroke-width="0.8" opacity="0.5"/>
+            <path d="M4 22C4 18 6 14 12 14C10 18 12 22 8 24" stroke="currentColor" stroke-width="0.6" opacity="0.4" fill="none"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Page 2 Content -->
+      <div class="page-content page2-content">
+
+        <!-- LEFT: Backstory / Notes -->
+        <div class="page2-left">
+          <div class="notes-area">
+            <span class="section-title">Notas</span>
+            <textarea id="backstory" placeholder="Escreva anotações de campanha, conexões com NPCs, missões e pistas da sua caçada..."></textarea>
+          </div>
+        </div>
+
+        <!-- RIGHT: Portrait + Items -->
+        <div class="page2-right">
+
+          <!-- Portrait -->
+          <div class="portrait-container">
+            <div class="portrait-frame" id="portrait-frame">
+              <!-- Ornate oval frame SVG -->
+              <svg class="portrait-border" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+                <!-- Outer oval -->
+                <ellipse cx="100" cy="120" rx="88" ry="108" fill="none" stroke="#3d2b1f" stroke-width="3"/>
+                <ellipse cx="100" cy="120" rx="84" ry="104" fill="none" stroke="#3d2b1f" stroke-width="0.8" opacity="0.4"/>
+                <ellipse cx="100" cy="120" rx="92" ry="112" fill="none" stroke="#3d2b1f" stroke-width="0.5" opacity="0.3"/>
+
+                <!-- Top ornament -->
+                <path d="M100 8 C95 14 85 16 80 14 C85 20 90 22 100 20 C110 22 115 20 120 14 C115 16 105 14 100 8Z" fill="#3d2b1f" opacity="0.7"/>
+                <path d="M100 4 L104 12 L100 10 L96 12 Z" fill="#3d2b1f" opacity="0.8"/>
+                <circle cx="100" cy="6" r="2" fill="#3d2b1f" opacity="0.5"/>
+
+                <!-- Bottom ornament -->
+                <path d="M100 232 C95 226 85 224 80 226 C85 220 90 218 100 220 C110 218 115 220 120 226 C115 224 105 226 100 232Z" fill="#3d2b1f" opacity="0.7"/>
+                <path d="M100 236 L104 228 L100 230 L96 228 Z" fill="#3d2b1f" opacity="0.8"/>
+
+                <!-- Left ornament -->
+                <path d="M8 120 C14 115 16 105 14 100 C20 105 22 110 20 120 C22 130 20 135 14 140 C16 135 14 125 8 120Z" fill="#3d2b1f" opacity="0.6"/>
+
+                <!-- Right ornament -->
+                <path d="M192 120 C186 115 184 105 186 100 C180 105 178 110 180 120 C178 130 180 135 186 140 C184 135 186 125 192 120Z" fill="#3d2b1f" opacity="0.6"/>
+
+                <!-- Corner flourishes -->
+                <path d="M30 40 C35 50 45 55 50 45 C42 48 38 42 35 35" stroke="#3d2b1f" stroke-width="0.8" fill="none" opacity="0.5"/>
+                <path d="M170 40 C165 50 155 55 150 45 C158 48 162 42 165 35" stroke="#3d2b1f" stroke-width="0.8" fill="none" opacity="0.5"/>
+                <path d="M30 200 C35 190 45 185 50 195 C42 192 38 198 35 205" stroke="#3d2b1f" stroke-width="0.8" fill="none" opacity="0.5"/>
+                <path d="M170 200 C165 190 155 185 150 195 C158 192 162 198 165 205" stroke="#3d2b1f" stroke-width="0.8" fill="none" opacity="0.5"/>
+
+                <!-- Vine/leaf decorations -->
+                <path d="M50 20 C55 25 60 22 58 18 C62 26 55 30 48 25" stroke="#3d2b1f" stroke-width="0.6" fill="none" opacity="0.4"/>
+                <path d="M150 20 C145 25 140 22 142 18 C138 26 145 30 152 25" stroke="#3d2b1f" stroke-width="0.6" fill="none" opacity="0.4"/>
+                <path d="M50 220 C55 215 60 218 58 222 C62 214 55 210 48 215" stroke="#3d2b1f" stroke-width="0.6" fill="none" opacity="0.4"/>
+                <path d="M150 220 C145 215 140 218 142 222 C138 214 145 210 152 215" stroke="#3d2b1f" stroke-width="0.6" fill="none" opacity="0.4"/>
+
+                <!-- Small dots along oval -->
+                <circle cx="50" cy="50" r="1.2" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="150" cy="50" r="1.2" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="50" cy="190" r="1.2" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="150" cy="190" r="1.2" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="16" cy="80" r="1" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="16" cy="160" r="1" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="184" cy="80" r="1" fill="#3d2b1f" opacity="0.3"/>
+                <circle cx="184" cy="160" r="1" fill="#3d2b1f" opacity="0.3"/>
+              </svg>
+
+              <div class="portrait-frame__image-area" id="portrait-area">
+                <span class="portrait-frame__placeholder" id="portrait-placeholder">Clique para enviar retrato</span>
+                <img id="portrait-img" style="display:none;" alt="Retrato do personagem">
+              </div>
+            </div>
+            <input type="file" id="portrait-upload" accept="image/*" style="display:none;">
+            <button class="portrait-upload-btn" id="portrait-upload-btn">Enviar Retrato</button>
+          </div>
+
+          <!-- Items -->
+          <div class="items-section">
+            <span class="section-title">História do Personagem</span>
+            <textarea id="itens" placeholder="As mortes, glórias e pesadelos do seu passado. Detalhe como sua tragédia se conecta com os mistérios de Yharnam e os motivos que te forçam a continuar caminhando pelas ruas banhadas de sangue..." rows="14"></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       PORTRAIT CROP MODAL
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="crop-modal" id="crop-modal" data-html2canvas-ignore>
+    <div class="crop-modal__content">
+      <h3 class="crop-modal__title">Ajustar Retrato</h3>
+      <div class="crop-modal__preview" id="crop-preview">
+        <img id="crop-img" alt="Preview do retrato" draggable="false">
+      </div>
+      <div class="crop-modal__controls">
+        <span class="crop-modal__zoom-label">Zoom</span>
+        <input type="range" class="crop-modal__zoom" id="crop-zoom" min="100" max="400" value="100">
+      </div>
+      <div class="crop-modal__actions">
+        <button class="crop-modal__btn crop-modal__btn--cancel" id="crop-cancel">Cancelar</button>
+        <button class="crop-modal__btn crop-modal__btn--confirm" id="crop-confirm">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supabase Cloud CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- App Scripts -->
+  <script src="js/utils.js"></script>
+  <script src="js/portrait.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

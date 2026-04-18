@@ -1,0 +1,217 @@
+/* ============================================================
+   ECOS DO PASSADO — Ornaments & Decorations
+   SVG borders, frames, textures, and separators
+   ============================================================ */
+
+/* ── Page Border (Victorian corners) ────────────────────────── */
+.page-border {
+  position: absolute;
+  inset: 4mm;
+  border: 2px solid var(--gold-dark);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.page-border::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border: 1px solid rgba(184, 134, 11, 0.3);
+}
+
+/* Corner ornaments */
+.page-border__corner {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  z-index: 4;
+}
+
+.page-border__corner svg {
+  width: 100%;
+  height: 100%;
+  color: var(--gold-accent);
+}
+
+.page-border__corner--tl { top: -2px; left: -2px; }
+.page-border__corner--tr { top: -2px; right: -2px; transform: scaleX(-1); }
+.page-border__corner--bl { bottom: -2px; left: -2px; transform: scaleY(-1); }
+.page-border__corner--br { bottom: -2px; right: -2px; transform: scale(-1); }
+
+/* ── Decorative Divider ─────────────────────────────────────── */
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 1mm 0;
+  width: 100%;
+}
+
+.divider__line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--gold-dark) 20%,
+    var(--gold-dark) 80%,
+    transparent
+  );
+}
+
+.divider__ornament {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--gold-accent);
+}
+
+.divider--subtle .divider__line {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(61, 43, 31, 0.25) 20%,
+    rgba(61, 43, 31, 0.25) 80%,
+    transparent
+  );
+}
+
+/* ── Section Frames ─────────────────────────────────────────── */
+.framed-section {
+  position: relative;
+  border: 1px solid var(--gold-dark);
+  padding: 3mm;
+}
+
+.framed-section::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border: 1px solid rgba(184, 134, 11, 0.15);
+  pointer-events: none;
+}
+
+.framed-section--highlight {
+  border-color: var(--blood-crimson);
+}
+
+.framed-section--highlight::before {
+  border-color: rgba(139, 26, 26, 0.15);
+}
+
+/* ── Ink Stain Decoration ───────────────────────────────────── */
+.ink-stain {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(92, 13, 13, 0.06) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Aged Paper Edge Effect ─────────────────────────────────── */
+.sheet-page .aged-edge {
+  position: absolute;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.aged-edge--top {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(
+    180deg,
+    rgba(92, 74, 40, 0.15) 0%,
+    transparent 100%
+  );
+}
+
+.aged-edge--bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(
+    0deg,
+    rgba(92, 74, 40, 0.2) 0%,
+    transparent 100%
+  );
+}
+
+.aged-edge--left {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 5px;
+  background: linear-gradient(
+    90deg,
+    rgba(92, 74, 40, 0.12) 0%,
+    transparent 100%
+  );
+}
+
+.aged-edge--right {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 5px;
+  background: linear-gradient(
+    270deg,
+    rgba(92, 74, 40, 0.12) 0%,
+    transparent 100%
+  );
+}
+
+/* ── Wax Seal Decoration (optional decorative) ──────────────── */
+.wax-seal {
+  width: 36px;
+  height: 36px;
+  color: var(--blood-crimson);
+  opacity: 0.8;
+}
+
+/* ── Gothic Header Underline ────────────────────────────────── */
+.gothic-underline {
+  display: block;
+  width: 80%;
+  height: 2px;
+  margin: var(--sp-2) auto;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--gold-dark) 15%,
+    var(--gold-accent) 50%,
+    var(--gold-dark) 85%,
+    transparent
+  );
+}
+
+/* ── Attribute Frame Glow (on hover) ────────────────────────── */
+.attribute-block:hover .attribute-block__frame svg {
+  filter: drop-shadow(0 0 3px rgba(184, 134, 11, 0.3));
+}
+
+/* ── Blood Drip Effect (for Falhas section) ─────────────────── */
+.blood-accent {
+  color: var(--blood-crimson);
+}
+
+.blood-accent::after {
+  content: '';
+  display: block;
+  width: 2px;
+  height: 6px;
+  background: linear-gradient(
+    180deg,
+    var(--blood-crimson),
+    transparent
+  );
+  margin: 0 auto;
+  opacity: 0.5;
+}

@@ -1,0 +1,300 @@
+/* ============================================================
+   ECOS DO PASSADO — Page Layout
+   A4 proportioned pages for character sheet
+   ============================================================ */
+
+/* ── Toolbar ────────────────────────────────────────────────── */
+.toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-4) var(--sp-12);
+  background: linear-gradient(
+    180deg,
+    rgba(10, 7, 5, 0.97) 0%,
+    rgba(10, 7, 5, 0.92) 100%
+  );
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--gold-dark);
+  font-family: var(--font-heading);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+.toolbar__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  color: var(--gold-light);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.toolbar__actions {
+  display: flex;
+  gap: var(--sp-4);
+  align-items: center;
+}
+
+.toolbar__btn {
+  font-family: var(--font-heading);
+  font-size: var(--fs-sm);
+  color: var(--parchment-light);
+  background: linear-gradient(135deg, var(--gold-dark), var(--ink-brown));
+  border: 1px solid var(--gold-accent);
+  padding: var(--sp-3) var(--sp-8);
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.toolbar__btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--gold-accent), var(--gold-light));
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  pointer-events: none;
+}
+
+.toolbar__btn:hover {
+  color: var(--ink-black);
+  border-color: var(--gold-light);
+  box-shadow: var(--shadow-glow-gold);
+}
+
+.toolbar__btn:hover::before {
+  opacity: 1;
+}
+
+.toolbar__btn span {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Page Container ─────────────────────────────────────────── */
+.sheet-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(60px + var(--sp-16)) var(--sp-8) var(--sp-16);
+  gap: var(--sp-16);
+}
+
+/* ── Single Page (A4) ───────────────────────────────────────── */
+.sheet-page {
+  width: var(--page-width);
+  min-height: var(--page-height);
+  position: relative;
+  box-shadow: var(--shadow-deep);
+  overflow: hidden;
+}
+
+#page-1 {
+  height: auto;
+  overflow: visible;
+}
+
+#page-2 {
+  height: var(--page-height);
+}
+
+/* Parchment background via gradients */
+.sheet-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    /* Subtle noise/grain effect */
+    repeating-conic-gradient(
+      rgba(61, 43, 31, 0.015) 0% 25%,
+      transparent 0% 50%
+    ) 0 0 / 4px 4px,
+    /* Vignette edges */
+    radial-gradient(
+      ellipse at center,
+      transparent 50%,
+      rgba(10, 7, 5, 0.08) 100%
+    ),
+    /* Parchment gradient */
+    linear-gradient(
+      170deg,
+      var(--parchment-lightest) 0%,
+      var(--parchment-light) 30%,
+      var(--parchment-mid) 70%,
+      var(--parchment-dark) 100%
+    );
+  z-index: 0;
+}
+
+/* Aging stain spots */
+.sheet-page::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 85%, rgba(139, 107, 60, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(139, 107, 60, 0.08) 0%, transparent 30%),
+    radial-gradient(circle at 50% 50%, rgba(139, 107, 60, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 90% 90%, rgba(100, 70, 30, 0.1) 0%, transparent 35%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.sheet-page > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Page 1: Stats Layout ───────────────────────────────────── */
+.page-content {
+  padding: var(--page-padding);
+  padding-top: 6mm;
+  width: 100%;
+  height: 100%;
+}
+
+.page1-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* -- Header Section -- */
+.header-section {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 2mm;
+  padding: 0 2mm;
+}
+
+.rito-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1mm;
+  margin-bottom: 1mm;
+}
+
+/* -- Attributes Hexagonal Grid -- */
+.attributes-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: auto auto auto;
+  align-items: center;
+  justify-items: center;
+  gap: 0;
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+}
+
+.attr-top-left      { grid-column: 1; grid-row: 1; }
+.attr-top-right     { grid-column: 3; grid-row: 1; }
+.attr-mid-left      { grid-column: 1; grid-row: 2; margin-top: -3mm; }
+.attr-mid-right     { grid-column: 3; grid-row: 2; margin-top: -3mm; }
+.attr-bot-left      { grid-column: 1; grid-row: 3; margin-top: -3mm; }
+.attr-bot-right     { grid-column: 3; grid-row: 3; margin-top: -3mm; }
+
+.center-stats {
+  grid-column: 2;
+  grid-row: 1 / 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 0 1mm;
+}
+
+/* -- Lower Section (PV, Skills, Combat) -- */
+.lower-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3mm;
+  margin-top: 1mm;
+}
+
+.lower-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2mm;
+}
+
+.lower-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 2mm;
+}
+
+/* ── Page 2: Portrait + Items Layout ────────────────────────── */
+.page2-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4mm;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.page2-left {
+  display: flex;
+  flex-direction: column;
+  gap: 3mm;
+  height: 100%;
+}
+
+.page2-right {
+  display: flex;
+  flex-direction: column;
+  gap: 3mm;
+  height: 100%;
+}
+
+/* ── Page Break (for PDF export) ────────────────────────────── */
+.page-break {
+  display: none;
+}
+
+/* ── Responsive: scale down on small screens ─────────────────── */
+@media screen and (max-width: 800px) {
+  .sheet-page {
+    width: 95vw;
+    min-height: auto;
+    aspect-ratio: 210 / 297;
+  }
+
+  .sheet-wrapper {
+    padding-top: calc(50px + var(--sp-8));
+  }
+}
+
+@media print {
+  .toolbar { display: none !important; }
+  .sheet-wrapper {
+    padding: 0;
+    gap: 0;
+  }
+  .sheet-page {
+    box-shadow: none;
+    page-break-after: always;
+    width: 210mm;
+    min-height: 297mm;
+  }
+  .page-break {
+    display: block;
+    page-break-before: always;
+  }
+}

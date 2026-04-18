@@ -1,0 +1,166 @@
+/* ============================================================
+   ECOS DO PASSADO — Animations & Transitions
+   Micro-interactions for the character sheet
+   ============================================================ */
+
+/* ── Input Focus Glow ───────────────────────────────────────── */
+.attribute-block__value:focus,
+.center-stat__value:focus {
+  text-shadow: 0 0 6px rgba(184, 134, 11, 0.3);
+}
+
+/* ── Attribute Hover Lift ───────────────────────────────────── */
+.attribute-block {
+  transition: transform var(--transition-base);
+}
+
+.attribute-block:hover {
+  transform: translateY(-1px);
+}
+
+/* ── Gold Border Pulse (on focus within) ────────────────────── */
+@keyframes borderPulse {
+  0%, 100% { border-color: var(--gold-accent); }
+  50% { border-color: var(--gold-light); }
+}
+
+.framed-section:focus-within {
+  animation: borderPulse 2s ease-in-out infinite;
+}
+
+/* ── Death Save Fill Animation ──────────────────────────────── */
+.death-save-dot {
+  transition: background var(--transition-fast),
+              border-color var(--transition-fast),
+              transform var(--transition-fast);
+}
+
+.death-save-dot.filled {
+  animation: deathFill 300ms ease-out;
+}
+
+@keyframes deathFill {
+  0% { transform: scale(0.6); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* ── Toolbar Button Hover ───────────────────────────────────── */
+.toolbar__btn {
+  transition: all var(--transition-base),
+              transform var(--transition-fast);
+}
+
+.toolbar__btn:active {
+  transform: scale(0.97);
+}
+
+/* ── Portrait Upload Hover ──────────────────────────────────── */
+.portrait-frame__image-area {
+  transition: box-shadow var(--transition-base);
+}
+
+.portrait-frame:hover .portrait-frame__image-area {
+  box-shadow: inset 0 0 20px rgba(184, 134, 11, 0.2);
+}
+
+/* ── Skill Item Hover ───────────────────────────────────────── */
+.skill-item {
+  transition: background var(--transition-fast);
+  padding-left: var(--sp-2);
+  padding-right: var(--sp-2);
+  border-radius: var(--radius-sm);
+}
+
+.skill-item:hover {
+  background: rgba(184, 134, 11, 0.06);
+}
+
+/* ── Section Hover Accent ───────────────────────────────────── */
+.equipment-section,
+.class-section,
+.rito-section,
+.proficiencies-section,
+.talent-section {
+  transition: border-color var(--transition-base),
+              box-shadow var(--transition-base);
+}
+
+.equipment-section:hover,
+.class-section:hover,
+.rito-section:hover,
+.proficiencies-section:hover,
+.talent-section:hover {
+  border-color: rgba(184, 134, 11, 0.3);
+  box-shadow: 0 0 8px rgba(184, 134, 11, 0.06);
+}
+
+/* ── Eldritch Subtle Flicker (for cosmic horror feel) ────────── */
+@keyframes eldritchFlicker {
+  0%, 97%, 100% { opacity: 1; }
+  98% { opacity: 0.92; }
+  99% { opacity: 0.96; }
+}
+
+.sheet-page {
+  animation: eldritchFlicker 8s ease-in-out infinite;
+}
+
+/* ── Page Entrance ──────────────────────────────────────────── */
+@keyframes pageReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sheet-page {
+  animation: pageReveal 800ms ease-out,
+             eldritchFlicker 8s ease-in-out 800ms infinite;
+}
+
+.sheet-page:nth-child(2) {
+  animation-delay: 200ms, 1000ms;
+}
+
+/* ── Crop Modal ─────────────────────────────────────────────── */
+.crop-modal {
+  transition: opacity var(--transition-base);
+}
+
+.crop-modal.active {
+  animation: modalFadeIn 250ms ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.crop-modal__content {
+  animation: modalSlideIn 300ms ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ── Reduced Motion ─────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

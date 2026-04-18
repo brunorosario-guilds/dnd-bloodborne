@@ -1,0 +1,102 @@
+/* ============================================================
+   ECOS DO PASSADO — Design Tokens
+   Cosmic Horror Gothic Dark Fantasy Character Sheet
+   ============================================================ */
+
+:root {
+  /* ── Parchment ────────────────────────────────────────────── */
+  --parchment-lightest: #f8f0e0;
+  --parchment-light:    #f4e4c1;
+  --parchment-mid:      #dcc594;
+  --parchment-dark:     #c4a86c;
+  --parchment-shadow:   #a88b50;
+
+  /* ── Ink ──────────────────────────────────────────────────── */
+  --ink-black:          #1a1008;
+  --ink-brown:          #3d2b1f;
+  --ink-mid:            #5c4a3a;
+  --ink-light:          #8a7665;
+
+  /* ── Blood / Danger ───────────────────────────────────────── */
+  --blood-crimson:      #8b1a1a;
+  --blood-dark:         #5c0d0d;
+  --blood-glow:         #c43030;
+
+  /* ── Gold / Accent ────────────────────────────────────────── */
+  --gold-dark:          #7a5a0a;
+  --gold-accent:        #b8860b;
+  --gold-light:         #d4a847;
+  --gold-pale:          #e8cc7a;
+
+  /* ── Eldritch / Cosmic ────────────────────────────────────── */
+  --eldritch-deep:      #1a0e33;
+  --eldritch-purple:    #2d1b4e;
+  --eldritch-glow:      #6b3fa0;
+
+  /* ── Neutrals ─────────────────────────────────────────────── */
+  --ash-grey:           #4a4540;
+  --shadow-deep:        #0a0705;
+  --page-bg:            #121010;
+
+  /* ── Typography ───────────────────────────────────────────── */
+  --font-display:       'Cinzel Decorative', serif;
+  --font-heading:       'Cinzel', serif;
+  --font-body:          'EB Garamond', Georgia, 'Times New Roman', serif;
+
+  /* ── Font Sizes ───────────────────────────────────────────── */
+  --fs-xs:              0.65rem;
+  --fs-sm:              0.75rem;
+  --fs-base:            0.875rem;
+  --fs-md:              1rem;
+  --fs-lg:              1.25rem;
+  --fs-xl:              1.5rem;
+  --fs-2xl:             2rem;
+  --fs-3xl:             2.5rem;
+  --fs-attr:            2.2rem;     /* Attribute main number */
+  --fs-mod:             0.85rem;    /* Attribute modifier */
+
+  /* ── Font Weights ─────────────────────────────────────────── */
+  --fw-normal:          400;
+  --fw-medium:          500;
+  --fw-semibold:        600;
+  --fw-bold:            700;
+
+  /* ── Spacing ──────────────────────────────────────────────── */
+  --sp-1:               0.125rem;
+  --sp-2:               0.25rem;
+  --sp-3:               0.375rem;
+  --sp-4:               0.5rem;
+  --sp-6:               0.75rem;
+  --sp-8:               1rem;
+  --sp-10:              1.25rem;
+  --sp-12:              1.5rem;
+  --sp-16:              2rem;
+  --sp-20:              2.5rem;
+  --sp-24:              3rem;
+
+  /* ── Borders ──────────────────────────────────────────────── */
+  --border-thin:        1px solid var(--ink-light);
+  --border-medium:      2px solid var(--ink-brown);
+  --border-gold:        1px solid var(--gold-accent);
+  --radius-sm:          2px;
+  --radius-md:          4px;
+  --radius-lg:          8px;
+
+  /* ── Shadows ──────────────────────────────────────────────── */
+  --shadow-inset:       inset 0 0 15px rgba(10, 7, 5, 0.15);
+  --shadow-parchment:   0 2px 8px rgba(10, 7, 5, 0.3);
+  --shadow-deep:        0 4px 20px rgba(10, 7, 5, 0.5);
+  --shadow-glow-gold:   0 0 8px rgba(184, 134, 11, 0.3);
+  --shadow-glow-blood:  0 0 8px rgba(139, 26, 26, 0.4);
+
+  /* ── Transitions ──────────────────────────────────────────── */
+  --transition-fast:    150ms ease;
+  --transition-base:    250ms ease;
+  --transition-slow:    400ms ease;
+
+  /* ── Page Dimensions (A4 ratio) ───────────────────────────── */
+  --page-width:         210mm;
+  --page-height:        297mm;
+  --page-padding:       10mm;
+  --page-inner-padding: 6mm;
+}
