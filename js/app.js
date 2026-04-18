@@ -417,6 +417,22 @@ const Cloud = {
     const btnSave = document.getElementById('btn-save-sheet');
     if (btnSave) btnSave.style.display = 'inline-flex';
     
+    // Auto-heal: Ensure ANY logged in user has a sheet right away if they somehow lack one
+    try {
+      const { data: ownSheets } = await this.supabase
+        .from('character_sheets')
+        .select('id')
+        .eq('user_id', this.session.user.id)
+        .limit(1);
+        
+      if (!ownSheets || ownSheets.length === 0) {
+        await this.supabase.from('character_sheets').insert({
+          user_id: this.session.user.id,
+          data: {}
+        });
+      }
+    } catch (ignored) {}
+    
     if (this.session.user.email === 'deltamike@bloodborne.com') {
       this.isDM = true;
       document.getElementById('auth-status').textContent = `Ecos do Passado — Mestre da Mesa`;
@@ -465,8 +481,12 @@ const Cloud = {
       listContainer.innerHTML = '';
       
       data.forEach(sheet => {
-        const charName = sheet.data['char-name'] || 'Sem Nome';
+        let charName = sheet.data['char-name'] || 'Sem Nome';
         
+        if (sheet.user_id === this.session.user.id) {
+            charName += ' -PdM';
+        }
+
         const li = document.createElement('li');
         li.textContent = charName;
         li.className = 'dm-sheet-item';

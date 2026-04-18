@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/components.css?v=3">
   <link rel="stylesheet" href="css/ornaments.css">
   <link rel="stylesheet" href="css/animations.css">
 </head>
@@ -38,6 +38,9 @@
        ═══════════════════════════════════════════════════════════ -->
   <div class="cloud-modal" id="cloud-modal">
     <div class="cloud-modal__content">
+      <div style="text-align: center; margin-bottom: 5px;">
+        <img src="hunter_rune.png" alt="Runa do Caçador" class="cloud-modal__rune">
+      </div>
       <h3 class="cloud-modal__title">O Vazio do Caçador</h3>
       <p class="cloud-modal__desc">Um nome é tudo o que resta na escuridão. Adentre para restaurar suas memórias ou grave seu juramento para forjar um novo destino.</p>
       
@@ -49,13 +52,16 @@
         <div class="cloud-modal__field">
           <label for="auth-password">Senha</label>
           <input type="password" id="auth-password" placeholder="Sua senha selada...">
+          <p class="cloud-modal__disclaimer">Aviso: Crie uma senha fácil de lembrar, pois não é possível redefini-la após criada.</p>
         </div>
         
         <p class="cloud-modal__error" id="auth-error"></p>
 
         <div class="cloud-modal__actions">
           <button class="cloud-btn cloud-btn--login" id="btn-cloud-login">Entrar no Sonho</button>
-          <button class="cloud-btn cloud-btn--register" id="btn-cloud-register">Forjar Novo Juramento</button>
+          <button class="cloud-btn cloud-btn--register" id="btn-cloud-register">
+            <span class="moon-icon">☽</span> Forjar Novo Juramento <span class="moon-icon">☾</span>
+          </button>
         </div>
       </div>
     </div>
@@ -803,6 +809,6 @@
   <!-- App Scripts -->
   <script src="js/utils.js"></script>
   <script src="js/portrait.js"></script>
-  <script src="js/app.js?v=4"></script>
+  <script src="js/app.js?v=6"></script>
 </body>
 </html>

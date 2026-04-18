@@ -887,8 +887,7 @@ input[type="text"].skill-item__mod {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: rgba(5, 3, 2, 0.95);
-  backdrop-filter: blur(8px);
+  background: #000; /* Pure black without transparency */
   align-items: center;
   justify-content: center;
   opacity: 1;
@@ -901,34 +900,43 @@ input[type="text"].skill-item__mod {
 }
 
 .cloud-modal__content {
-  background: url('../old_papyrus_bg.jpg') center/cover;
-  border: 3px solid var(--gold-accent);
-  border-radius: 4px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
   padding: var(--sp-12);
   width: 90%;
   max-width: 440px;
-  box-shadow: 0 0 40px rgba(138, 3, 3, 0.2), inset 0 0 60px rgba(0,0,0,0.6);
+  box-shadow: none;
   display: flex;
   flex-direction: column;
   position: relative;
 }
 
+.cloud-modal__rune {
+  width: 45px;
+  display: block;
+  margin: 0 auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
+}
+
 .cloud-modal__title {
   font-family: var(--font-heading);
   font-size: var(--fs-xl);
-  color: var(--ink-black);
+  color: #fff;
   text-align: center;
   margin-bottom: var(--sp-2);
-  border-bottom: 2px solid rgba(61, 43, 31, 0.3);
-  padding-bottom: var(--sp-2);
+  border-bottom: none;
+  padding-bottom: 0;
   text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .cloud-modal__desc {
   font-family: var(--font-body);
   font-style: italic;
   font-size: var(--fs-md);
-  color: var(--ink-mid);
+  color: #ccc;
   text-align: center;
   margin-bottom: var(--sp-8);
   line-height: 1.4;
@@ -950,25 +958,40 @@ input[type="text"].skill-item__mod {
   font-family: var(--font-heading);
   font-size: var(--fs-sm);
   font-weight: var(--fw-bold);
-  color: var(--blood-crimson);
+  color: #fff;
   text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .cloud-modal__field input {
   font-family: var(--font-body);
   font-size: var(--fs-md);
-  padding: var(--sp-3);
-  background: rgba(244, 228, 193, 0.4);
-  border: 1px solid rgba(61, 43, 31, 0.5);
-  color: var(--ink-black);
+  padding: var(--sp-3) var(--sp-2);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #fff;
+  color: #fff;
   outline: none;
   transition: all 0.2s;
 }
 
+.cloud-modal__field input::placeholder {
+  color: #777;
+  font-style: italic;
+}
+
+.cloud-modal__disclaimer {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: #999;
+  font-style: italic;
+  margin-top: 4px;
+}
+
 .cloud-modal__field input:focus {
-  background: rgba(244, 228, 193, 0.8);
+  background: transparent;
   border-color: var(--blood-crimson);
-  box-shadow: 0 0 10px rgba(138, 3, 3, 0.2);
+  box-shadow: 0 5px 10px -5px rgba(138, 3, 3, 0.5);
 }
 
 .cloud-modal__error {
@@ -996,31 +1019,53 @@ input[type="text"].skill-item__mod {
   cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  transition: all 0.2s;
+  transition: all 0.3s;
 }
 
 .cloud-btn--login {
-  background: var(--ink-brown);
-  color: var(--parchment-light);
-  border: 1px solid var(--ink-black);
+  background: 
+    linear-gradient(135deg, rgba(80,0,0,0.8) 0%, rgba(138,3,3,0.9) 40%, rgba(40,0,0,0.9) 100%),
+    url('data:image/svg+xml;utf8,<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="8" fill="%233a0000" opacity="0.3" /><circle cx="30" cy="20" r="12" fill="%231a0000" opacity="0.4" /><circle cx="15" cy="35" r="5" fill="%235a0000" opacity="0.2" /></svg>');
+  background-color: #600;
+  color: #fff;
+  border: none;
+  text-shadow: 1px 1px 2px #000;
+  border-radius: 2px;
 }
 
 .cloud-btn--login:hover {
-  background: var(--blood-crimson);
-  color: var(--parchment-light);
-  box-shadow: 0 0 15px rgba(138, 3, 3, 0.4);
+  background: 
+    linear-gradient(135deg, rgba(100,0,0,0.9) 0%, rgba(188,3,3,1) 40%, rgba(60,0,0,1) 100%),
+    url('data:image/svg+xml;utf8,<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="8" fill="%233a0000" opacity="0.3" /><circle cx="30" cy="20" r="12" fill="%231a0000" opacity="0.4" /><circle cx="15" cy="35" r="5" fill="%235a0000" opacity="0.2" /></svg>');
+  color: #fff;
+  box-shadow: 0 0 20px rgba(188, 3, 3, 0.6);
+  transform: scale(1.02);
 }
 
 .cloud-btn--register {
   background: transparent;
-  color: var(--ink-brown);
-  border: 1px solid var(--ink-brown);
+  color: #fff;
+  border: none;
+  margin-top: var(--sp-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+}
+
+.moon-icon {
+  transition: color 0.3s;
+  font-size: 1.2em;
 }
 
 .cloud-btn--register:hover {
-  background: rgba(61, 43, 31, 0.1);
+  background: transparent;
+  color: #fff;
+  border: none;
+}
+
+.cloud-btn--register:hover .moon-icon {
   color: var(--blood-crimson);
-  border-color: var(--blood-crimson);
 }
 
 /* ── DM Panel (Floating Sidebar) ─────────────────────────────── */
