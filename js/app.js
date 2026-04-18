@@ -15,8 +15,7 @@ const App = {
     this._bindDeathSaves();
     this._bindManualSave();
 
-    // Load saved data if exists
-    this._loadFromStorage();
+    // LocalStorage obsoleto, banco migrado para o Supabase
     
     // Calculate and bind modifiers after loading storage
     this._bindModifiers();
