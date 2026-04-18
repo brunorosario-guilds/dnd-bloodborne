@@ -4,14 +4,16 @@
    ============================================================ */
 
 const App = {
+  isDirty: false,
+  isHydrating: false,
+
   /**
    * Initialize the application
    */
   init() {
     Portrait.init();
-    Export.init();
     this._bindDeathSaves();
-    this._bindAutoSave();
+    this._bindManualSave();
 
     // Load saved data if exists
     this._loadFromStorage();
@@ -35,7 +37,9 @@ const App = {
       container.querySelectorAll('.death-save-dot').forEach(dot => {
         dot.addEventListener('click', () => {
           dot.classList.toggle('filled');
-          if (Cloud.session) Cloud.saveSheetState();
+          if (!this.isHydrating && Cloud.session) {
+            this.isDirty = true;
+          }
         });
       });
     });
@@ -178,21 +182,34 @@ const App = {
   },
 
   /**
-   * Bind Nuvem saves to blur events strictly
+   * Bind Manual saves and dirty tracking
    */
-  _bindAutoSave() {
-    // Módulo de save silencioso na nuvem (somente quando sair do foco/encerrar edição)
-    document.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(input => {
-      input.addEventListener('blur', () => {
-        if (Cloud.session) Cloud.saveSheetState();
-      });
+  _bindManualSave() {
+    const markDirty = () => {
+      if (!this.isHydrating && Cloud.session) {
+        this.isDirty = true;
+      }
+    };
+
+    document.querySelectorAll('input, textarea, select').forEach(el => {
+      el.addEventListener('input', markDirty);
+      el.addEventListener('change', markDirty);
     });
 
-    document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-      cb.addEventListener('change', () => {
+    // Beforeunload warning
+    window.addEventListener('beforeunload', (e) => {
+      if (this.isDirty) {
+        e.preventDefault();
+        e.returnValue = 'Suas alterações recentes não foram salvas. O Pesadelo vai engoli-las se você sair agora.';
+      }
+    });
+
+    const btnSave = document.getElementById('btn-save-sheet');
+    if (btnSave) {
+      btnSave.addEventListener('click', () => {
         if (Cloud.session) Cloud.saveSheetState();
       });
-    });
+    }
   },
 
   /**
@@ -355,6 +372,15 @@ const Cloud = {
         }
 
         this.session = data.session;
+
+        // Auto-create blank sheet so DM can observe it right away
+        try {
+          await this.supabase.from('character_sheets').insert({
+            user_id: this.session.user.id,
+            data: {}
+          });
+        } catch (ignored) {}
+
         await this.enterRealm();
         
       } else if (mode === 'login') {
@@ -387,6 +413,9 @@ const Cloud = {
   async enterRealm() {
     document.getElementById('cloud-modal').classList.add('hidden');
     document.getElementById('btn-logout').style.display = 'block';
+
+    const btnSave = document.getElementById('btn-save-sheet');
+    if (btnSave) btnSave.style.display = 'inline-flex';
     
     if (this.session.user.email === 'deltamike@bloodborne.com') {
       this.isDM = true;
@@ -406,7 +435,10 @@ const Cloud = {
         .single();
         
       if (data && data.data) {
+        App.isHydrating = true;
         App.hydrateAll(data.data);
+        App.isHydrating = false;
+        App.isDirty = false; // Reset clean
       }
     } catch (error) {
       // Ignora erro - usualmente significa q tabela está vazia (linha recém criado)
@@ -433,17 +465,18 @@ const Cloud = {
       listContainer.innerHTML = '';
       
       data.forEach(sheet => {
-        const charName = sheet.data['char-name'] || 'Ficha Sem Nome';
-        const playerClass = sheet.data['classe'] || 'Desconhecido';
+        const charName = sheet.data['char-name'] || 'Sem Nome';
         
         const li = document.createElement('li');
-        li.textContent = `${charName} (${playerClass})`;
+        li.textContent = charName;
         li.className = 'dm-sheet-item';
         li.addEventListener('click', () => {
           document.querySelectorAll('.dm-sheet-item').forEach(el => el.classList.remove('active'));
           li.classList.add('active');
           
           this.currentDMEditingId = sheet.id;
+          
+          App.isHydrating = true;
           App.hydrateAll(sheet.data);
           
           // Dispara evento 'input' nos atributos base para recalcular todos os modificadores visualmente
@@ -452,12 +485,55 @@ const Cloud = {
              const el = document.getElementById(`${attr}-val`);
              if (el) el.dispatchEvent(new Event('input'));
           });
+          
+          App.isHydrating = false;
+          App.isDirty = false;
         });
         listContainer.appendChild(li);
       });
     } catch (err) {
       console.error('Failed to load sheets for DM', err);
     }
+  },
+
+  playFeedback(type) {
+    try {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      
+      const toolbar = document.querySelector('.toolbar');
+      toolbar.style.transition = 'background-color 0.2s, box-shadow 0.2s';
+
+      if (type === 'success') {
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(600, audioCtx.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.1);
+        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.4);
+        
+        toolbar.style.backgroundColor = 'rgba(40, 80, 40, 0.9)';
+        toolbar.style.boxShadow = '0 0 15px rgba(80, 200, 80, 0.6)';
+        setTimeout(() => { toolbar.style.backgroundColor = ''; toolbar.style.boxShadow = ''; }, 600);
+      } else {
+        oscillator.type = 'sawtooth';
+        oscillator.frequency.setValueAtTime(300, audioCtx.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.3);
+        gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.3);
+
+        toolbar.style.backgroundColor = 'rgba(120, 20, 20, 0.9)';
+        toolbar.style.boxShadow = '0 0 20px rgba(255, 0, 0, 0.8)';
+        setTimeout(() => { toolbar.style.backgroundColor = ''; toolbar.style.boxShadow = ''; }, 500);
+      }
+    } catch(e) {}
   },
 
   async saveSheetState() {
@@ -480,28 +556,43 @@ const Cloud = {
 
         if (error) throw error;
       } else {
-        const { error } = await this.supabase
+        // Fallback robusto à prova de falhas: verifica existência e contorna o uso restrito de upsert.
+        // Isso imuniza contra tabelas que não tiveram o constraint UNIQUE ativado corretamente.
+        const { data: checkData, error: checkError } = await this.supabase
           .from('character_sheets')
-          .upsert({
-            user_id: this.session.user.id,
-            data: state
-          }, { onConflict: 'user_id' });
+          .select('id')
+          .eq('user_id', this.session.user.id)
+          .limit(1);
+          
+        if (checkError) throw checkError;
 
-        if (error) {
-          console.error('Save failed:', error);
-          document.getElementById('auth-status').textContent = `Erro: ${error.message}`;
-          return;
+        if (checkData && checkData.length > 0) {
+          // Atualiza registro existente (Update)
+          const { error } = await this.supabase
+            .from('character_sheets')
+            .update({ data: state })
+            .eq('id', checkData[0].id);
+          if (error) throw error;
+        } else {
+          // Insere pela primeira vez (Insert)
+          const { error } = await this.supabase
+            .from('character_sheets')
+            .insert({ user_id: this.session.user.id, data: state });
+          if (error) throw error;
         }
       }
-      
+      this.playFeedback('success');
       document.getElementById('auth-status').textContent = `Ecos do Passado — ✅ Salvo na Nuvem`;
+      App.isDirty = false;
+
       setTimeout(() => {
         document.getElementById('auth-status').textContent = this.isDM ? `Ecos do Passado — Mestre da Mesa` : `Ecos do Passado — Sincronizado`;
       }, 3000);
       
     } catch (err) {
       console.error(err);
-      document.getElementById('auth-status').textContent = `Erro: ${err.message}`;
+      this.playFeedback('error');
+      document.getElementById('auth-status').textContent = `Erro Fatal: ${err.message}`;
     }
   }
 };
