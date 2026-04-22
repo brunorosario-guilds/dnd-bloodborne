@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/components.css?v=3">
+  <link rel="stylesheet" href="css/components.css?v=4">
   <link rel="stylesheet" href="css/ornaments.css">
   <link rel="stylesheet" href="css/animations.css">
 </head>
@@ -169,8 +169,8 @@
 
         <!-- ── RITO (centered below header row) ───────────── -->
         <div class="rito-header">
-          <input type="text" id="rito" class="header-field__input header-field__input--rito" placeholder="—">
           <label class="header-field__label" for="rito">Rito</label>
+          <input type="text" id="rito" class="header-field__input header-field__input--rito" placeholder="—">
         </div>
 
         <!-- ── ATTRIBUTES HEXAGONAL GRID ──────────────────── -->
@@ -431,6 +431,12 @@
             </div>
             <span class="hp-field__label">Pontos de Vida</span>
             <input type="text" class="hit-dice__inline" id="dados-vida-tipo" placeholder="2d10">
+            
+            <!-- Descoberta -->
+            <div class="discovery-field" style="margin-top: 12px; display: flex; flex-direction: column; align-items: center;">
+              <span class="hp-field__label" style="margin-bottom: 2px;">Descoberta</span>
+              <input type="number" class="hp-field__value hp-field__value--small" id="descoberta" value="0">
+            </div>
           </div>
 
           <div class="hp-field hp-field--small">
@@ -442,9 +448,18 @@
 
 
         <!-- ── SKILLS SECTION (Full Width) ──── -->
-        <div class="skills-section" style="margin-bottom: 3mm;">
-          <span class="section-title section-title--left">Perícias</span>
+        <div class="skills-section collapsible-wrapper" style="margin-bottom: 3mm;">
+          <input type="checkbox" id="col-pericias" class="col-cb sr-only">
+          <input type="checkbox" id="lck-pericias" class="lck-cb sr-only">
+          <div class="section-title section-title--left collapsible-header">
+            <span>Perícias</span>
+            <div class="collapsible-controls">
+              <label for="lck-pericias" class="ctrl-btn ctrl-lock" title="Travar/Destravar"><svg viewBox="0 0 24 24"><path d="M12 17a2 2 0 100-4 2 2 0 000 4zm6-9v-2c0-3.31-2.69-6-6-6S6 4.69 6 8v2H4v12h16V8h-2zM8 8c0-2.21 1.79-4 4-4s4 1.79 4 4v2H8V8z"/></svg></label>
+              <label for="col-pericias" class="ctrl-btn ctrl-collapse" title="Expandir/Recolher"><svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg></label>
+            </div>
+          </div>
           
+          <div class="collapsible-content">
           <!-- Força -->
           <div class="skill-group">
             <div class="skill-group-header">Força</div>
@@ -563,8 +578,18 @@
           <div class="lower-left">
 
             <!-- Testes de Habilidade dos Atributos -->
-            <div class="skills-section" style="margin-bottom: 3mm;">
-              <span class="section-title section-title--left">Testes de Habilidade</span>
+            <div class="skills-section collapsible-wrapper" style="margin-bottom: 3mm;">
+              <input type="checkbox" id="col-saves" class="col-cb sr-only">
+              <input type="checkbox" id="lck-saves" class="lck-cb sr-only">
+              <div class="section-title section-title--left collapsible-header">
+                <span>Testes de Habilidade</span>
+                <div class="collapsible-controls">
+                  <label for="lck-saves" class="ctrl-btn ctrl-lock" title="Travar/Destravar"><svg viewBox="0 0 24 24"><path d="M12 17a2 2 0 100-4 2 2 0 000 4zm6-9v-2c0-3.31-2.69-6-6-6S6 4.69 6 8v2H4v12h16V8h-2zM8 8c0-2.21 1.79-4 4-4s4 1.79 4 4v2H8V8z"/></svg></label>
+                  <label for="col-saves" class="ctrl-btn ctrl-collapse" title="Expandir/Recolher"><svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg></label>
+                </div>
+              </div>
+              
+              <div class="collapsible-content">
               <div class="skill-group" style="margin-bottom: 0;">
                 <div class="skill-item">
                   <input type="checkbox" id="save-forca-prof">
@@ -598,32 +623,55 @@
                 </div>
               </div>
             </div>
-
-            <!-- Habilidades -->
-            <div class="equipment-section" style="margin-bottom: 3mm;">
-              <span class="section-title section-title--left">Habilidades</span>
-              <textarea id="habilidades" placeholder="Descreva as características da sua classe, magias se houver, etc..." rows="6"></textarea>
             </div>
-
-            <!-- Descoberta -->
-            <div class="class-section">
-              <div class="discovery-field">
-                <span class="class-section__label">Descoberta</span>
-                <input type="number" class="discovery-field__value" id="descoberta" value="0">
+            <!-- Habilidades -->
+            <div class="equipment-section collapsible-wrapper" style="margin-bottom: 3mm;">
+              <input type="checkbox" id="col-habilidades" class="col-cb sr-only">
+              <input type="checkbox" id="lck-habilidades" class="lck-cb sr-only">
+              <div class="section-title section-title--left collapsible-header">
+                <span>Habilidades</span>
+                <div class="collapsible-controls">
+                  <label for="lck-habilidades" class="ctrl-btn ctrl-lock" title="Travar/Destravar"><svg viewBox="0 0 24 24"><path d="M12 17a2 2 0 100-4 2 2 0 000 4zm6-9v-2c0-3.31-2.69-6-6-6S6 4.69 6 8v2H4v12h16V8h-2zM8 8c0-2.21 1.79-4 4-4s4 1.79 4 4v2H8V8z"/></svg></label>
+                  <label for="col-habilidades" class="ctrl-btn ctrl-collapse" title="Expandir/Recolher"><svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg></label>
+                </div>
+              </div>
+              <div class="collapsible-content">
+                <textarea id="habilidades" placeholder="Descreva as características da sua classe, magias se houver, etc..." rows="6"></textarea>
               </div>
             </div>
 
+
             <!-- Proficiências -->
-            <div class="proficiencies-section">
-              <span class="section-title section-title--left">Proficiências</span>
-              <textarea id="proficiencias" placeholder="Armaduras: Escudos&#10;Armas: Simples, Marciais, Caçadores&#10;Ferramentas: Ferramentas da Oficina" rows="3"></textarea>
+            <div class="proficiencies-section collapsible-wrapper">
+              <input type="checkbox" id="col-proficiencias" class="col-cb sr-only">
+              <input type="checkbox" id="lck-proficiencias" class="lck-cb sr-only">
+              <div class="section-title section-title--left collapsible-header">
+                <span>Proficiências</span>
+                <div class="collapsible-controls">
+                  <label for="lck-proficiencias" class="ctrl-btn ctrl-lock" title="Travar/Destravar"><svg viewBox="0 0 24 24"><path d="M12 17a2 2 0 100-4 2 2 0 000 4zm6-9v-2c0-3.31-2.69-6-6-6S6 4.69 6 8v2H4v12h16V8h-2zM8 8c0-2.21 1.79-4 4-4s4 1.79 4 4v2H8V8z"/></svg></label>
+                  <label for="col-proficiencias" class="ctrl-btn ctrl-collapse" title="Expandir/Recolher"><svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg></label>
+                </div>
+              </div>
+              <div class="collapsible-content">
+                <textarea id="proficiencias" placeholder="Armaduras: Escudos&#10;Armas: Simples, Marciais, Caçadores&#10;Ferramentas: Ferramentas da Oficina" rows="3"></textarea>
+              </div>
             </div>
 
             <!-- Talento -->
-            <div class="talent-section">
-              <span class="section-title section-title--left">Talento</span>
-              <div class="class-section__field">
-                <input type="text" class="class-section__value" id="talento" placeholder="Sortudo (Origem)">
+            <div class="talent-section collapsible-wrapper">
+              <input type="checkbox" id="col-talento" class="col-cb sr-only">
+              <input type="checkbox" id="lck-talento" class="lck-cb sr-only">
+              <div class="section-title section-title--left collapsible-header">
+                <span>Talento</span>
+                <div class="collapsible-controls">
+                  <label for="lck-talento" class="ctrl-btn ctrl-lock" title="Travar/Destravar"><svg viewBox="0 0 24 24"><path d="M12 17a2 2 0 100-4 2 2 0 000 4zm6-9v-2c0-3.31-2.69-6-6-6S6 4.69 6 8v2H4v12h16V8h-2zM8 8c0-2.21 1.79-4 4-4s4 1.79 4 4v2H8V8z"/></svg></label>
+                  <label for="col-talento" class="ctrl-btn ctrl-collapse" title="Expandir/Recolher"><svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg></label>
+                </div>
+              </div>
+              <div class="collapsible-content">
+                <div class="class-section__field">
+                  <input type="text" class="class-section__value" id="talento" placeholder="Sortudo (Origem)">
+                </div>
               </div>
             </div>
           </div>
@@ -632,21 +680,51 @@
           <div class="lower-right">
 
             <!-- Armadura -->
-            <div class="equipment-section">
-              <span class="section-title section-title--left">Armadura</span>
-              <textarea id="armadura" placeholder="Chapéu (Forasteiro): CA+1 / +2 em Furt.&#10;Traje (Forasteiro): CA+1 / +2 em Pers.&#10;Luvas (Forasteiro): CA+1 / +2 em Prest.&#10;Calças (Forasteiro): CA+1 / +2 em Int.&#10;-Full set bônus: +1d6 em rol. de Esquiva" rows="5"></textarea>
+            <div class="equipment-section collapsible-wrapper">
+              <input type="checkbox" id="col-armadura" class="col-cb sr-only">
+              <input type="checkbox" id="lck-armadura" class="lck-cb sr-only">
+              <div class="section-title section-title--left collapsible-header">
+                <span>Armadura</span>
+                <div class="collapsible-controls">
+                  <label for="lck-armadura" class="ctrl-btn ctrl-lock" title="Travar/Destravar"><svg viewBox="0 0 24 24"><path d="M12 17a2 2 0 100-4 2 2 0 000 4zm6-9v-2c0-3.31-2.69-6-6-6S6 4.69 6 8v2H4v12h16V8h-2zM8 8c0-2.21 1.79-4 4-4s4 1.79 4 4v2H8V8z"/></svg></label>
+                  <label for="col-armadura" class="ctrl-btn ctrl-collapse" title="Expandir/Recolher"><svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg></label>
+                </div>
+              </div>
+              <div class="collapsible-content">
+                <textarea id="armadura" placeholder="Chapéu (Forasteiro): CA+1 / +2 em Furt.&#10;Traje (Forasteiro): CA+1 / +2 em Pers.&#10;Luvas (Forasteiro): CA+1 / +2 em Prest.&#10;Calças (Forasteiro): CA+1 / +2 em Int.&#10;-Full set bônus: +1d6 em rol. de Esquiva" rows="5"></textarea>
+              </div>
             </div>
 
             <!-- Armas -->
-            <div class="equipment-section">
-              <span class="section-title section-title--left">Armas</span>
-              <textarea id="armas" placeholder="Bastão Enroscado&#10;- 2d4 (Concussão/Cortante)&#10;- Acuidade, Alcance (3q)&#10;&#10;Pistola de Caçador&#10;- 1d4 (Necrótico)&#10;- Alcance (6/12q)&#10;- Estável" rows="10"></textarea>
+            <div class="equipment-section collapsible-wrapper">
+              <input type="checkbox" id="col-armas" class="col-cb sr-only">
+              <input type="checkbox" id="lck-armas" class="lck-cb sr-only">
+              <div class="section-title section-title--left collapsible-header">
+                <span>Armas</span>
+                <div class="collapsible-controls">
+                  <label for="lck-armas" class="ctrl-btn ctrl-lock" title="Travar/Destravar"><svg viewBox="0 0 24 24"><path d="M12 17a2 2 0 100-4 2 2 0 000 4zm6-9v-2c0-3.31-2.69-6-6-6S6 4.69 6 8v2H4v12h16V8h-2zM8 8c0-2.21 1.79-4 4-4s4 1.79 4 4v2H8V8z"/></svg></label>
+                  <label for="col-armas" class="ctrl-btn ctrl-collapse" title="Expandir/Recolher"><svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg></label>
+                </div>
+              </div>
+              <div class="collapsible-content">
+                <textarea id="armas" placeholder="Bastão Enroscado&#10;- 2d4 (Concussão/Cortante)&#10;- Acuidade, Alcance (3q)&#10;&#10;Pistola de Caçador&#10;- 1d4 (Necrótico)&#10;- Alcance (6/12q)&#10;- Estável" rows="10"></textarea>
+              </div>
             </div>
 
             <!-- Outros -->
-            <div class="equipment-section equipment-section--flex">
-              <span class="section-title section-title--left">Outros Itens</span>
-              <textarea id="outros-equip" placeholder="Balas de mercúrio (x10)&#10;Moedas de ouro (x10)"></textarea>
+            <div class="equipment-section equipment-section--flex collapsible-wrapper">
+              <input type="checkbox" id="col-outros" class="col-cb sr-only">
+              <input type="checkbox" id="lck-outros" class="lck-cb sr-only">
+              <div class="section-title section-title--left collapsible-header">
+                <span>Outros Itens</span>
+                <div class="collapsible-controls">
+                  <label for="lck-outros" class="ctrl-btn ctrl-lock" title="Travar/Destravar"><svg viewBox="0 0 24 24"><path d="M12 17a2 2 0 100-4 2 2 0 000 4zm6-9v-2c0-3.31-2.69-6-6-6S6 4.69 6 8v2H4v12h16V8h-2zM8 8c0-2.21 1.79-4 4-4s4 1.79 4 4v2H8V8z"/></svg></label>
+                  <label for="col-outros" class="ctrl-btn ctrl-collapse" title="Expandir/Recolher"><svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg></label>
+                </div>
+              </div>
+              <div class="collapsible-content">
+                <textarea id="outros-equip" placeholder="Balas de mercúrio (x10)&#10;Moedas de ouro (x10)"></textarea>
+              </div>
             </div>
           </div>
         </div>
@@ -705,19 +783,16 @@
       <!-- Page 2 Content -->
       <div class="page-content page2-content">
 
-        <!-- LEFT: Backstory / Notes -->
-        <div class="page2-left">
-          <div class="notes-area">
-            <span class="section-title">Notas</span>
-            <textarea id="backstory" placeholder="Escreva anotações de campanha, conexões com NPCs, missões e pistas da sua caçada..."></textarea>
-          </div>
+        <!-- Notes -->
+        <div class="notes-area">
+          <span class="section-title">Notas</span>
+          <textarea id="backstory" placeholder="Escreva anotações de campanha, conexões com NPCs, missões e pistas da sua caçada..."></textarea>
         </div>
 
-        <!-- RIGHT: Portrait + Items -->
-        <div class="page2-right">
-
-          <!-- Portrait -->
-          <div class="portrait-container">
+        <!-- Portrait -->
+        <div class="portrait-container">
+          <div class="portrait-wrapper" style="display: flex; align-items: center; gap: 10px; position: relative;">
+            <button id="portrait-prev" class="portrait-nav-btn" style="display: none;" title="Retrato Anterior">&#10094;</button>
             <div class="portrait-frame" id="portrait-frame">
               <!-- Ornate oval frame SVG -->
               <svg class="portrait-border" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
@@ -764,21 +839,40 @@
                 <circle cx="184" cy="160" r="1" fill="#3d2b1f" opacity="0.3"/>
               </svg>
 
+              <svg class="portrait-masked-text" viewBox="0 0 200 240">
+                <!-- Arching over the top. Center is 100,120. -->
+                <path id="mask-text-path" d="M 10 56 A 105 125 0 0 1 190 56" fill="none" stroke="none" />
+                <text>
+                  <textPath href="#mask-text-path" startOffset="50%" text-anchor="middle" fill="currentColor">
+                    MASCARADO
+                  </textPath>
+                </text>
+              </svg>
+
               <div class="portrait-frame__image-area" id="portrait-area">
                 <span class="portrait-frame__placeholder" id="portrait-placeholder">Clique para enviar retrato</span>
                 <img id="portrait-img" style="display:none;" alt="Retrato do personagem">
               </div>
             </div>
-            <input type="file" id="portrait-upload" accept="image/*" style="display:none;">
-            <button class="portrait-upload-btn" id="portrait-upload-btn">Enviar Retrato</button>
+            <button id="portrait-next" class="portrait-nav-btn" style="display: none;" title="Próximo Retrato">&#10095;</button>
+            <button id="portrait-delete" class="portrait-delete-btn" style="display: none;" title="Excluir Retrato">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+            </button>
+            <button id="portrait-mode-toggle" class="portrait-mode-btn" title="Alternar Máscara">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M22,9A13.4,13.4,0,0,0,12,4.5,13.4,13.4,0,0,0,2,9c0,2.37,2,5,5,5a3.87,3.87,0,0,0,3-1.4,2.3,2.3,0,0,1,4,0A3.87,3.87,0,0,0,17,14C20,14,22,11.37,22,9ZM7.5,11A1.5,1.5,0,1,1,9,9.5,1.5,1.5,0,0,1,7.5,11Zm9,0A1.5,1.5,0,1,1,18,9.5,1.5,1.5,0,0,1,16.5,11Z" />
+              </svg>
+            </button>
           </div>
-
-          <!-- Items -->
-          <div class="items-section">
-            <span class="section-title">História do Personagem</span>
-            <textarea id="itens" placeholder="As mortes, glórias e pesadelos do seu passado. Detalhe como sua tragédia se conecta com os mistérios de Yharnam e os motivos que te forçam a continuar caminhando pelas ruas banhadas de sangue..." rows="14"></textarea>
-          </div>
+          <input type="file" id="portrait-upload" accept="image/*" style="display:none;" multiple>
         </div>
+
+        <!-- Items -->
+        <div class="items-section">
+          <span class="section-title">História do Personagem</span>
+          <textarea id="itens" placeholder="As mortes, glórias e pesadelos do seu passado. Detalhe como sua tragédia se conecta com os mistérios de Yharnam e os motivos que te forçam a continuar caminhando pelas ruas banhadas de sangue..." rows="14"></textarea>
+        </div>
+
       </div>
     </section>
   </main>
@@ -788,7 +882,7 @@
        ═══════════════════════════════════════════════════════════ -->
   <div class="crop-modal" id="crop-modal" data-html2canvas-ignore>
     <div class="crop-modal__content">
-      <h3 class="crop-modal__title">Ajustar Retrato</h3>
+      <h3 class="crop-modal__title">Ajustar Retrato <span id="crop-counter" style="font-size: 0.8em; opacity: 0.7; margin-left: 8px;"></span></h3>
       <div class="crop-modal__preview" id="crop-preview">
         <img id="crop-img" alt="Preview do retrato" draggable="false">
       </div>

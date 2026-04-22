@@ -252,17 +252,28 @@ const App = {
     });
 
     // Restore portrait
-    const portraitImg = document.getElementById('portrait-img');
-    const placeholder = document.getElementById('portrait-placeholder');
-    if (portraitImg && placeholder) {
-      if (data['portrait-src']) {
-        portraitImg.src = data['portrait-src'];
-        portraitImg.style.display = 'block';
-        placeholder.style.display = 'none';
+    if (window.Portrait) {
+      // Normal gallery
+      if (data['portrait-images'] && data['portrait-images'].length > 0) {
+        Portrait.loadGallery('normal', data['portrait-images'], data['portrait-index'] || 0);
+      } else if (data['portrait-src']) {
+        Portrait.loadGallery('normal', [data['portrait-src']], 0);
       } else {
-        portraitImg.removeAttribute('src');
-        portraitImg.style.display = 'none';
-        placeholder.style.display = ''; // Volta ao padrão flex/block do CSS nativo
+        Portrait.loadGallery('normal', [], 0);
+      }
+
+      // Masked gallery
+      if (data['portrait-images-masked'] && data['portrait-images-masked'].length > 0) {
+        Portrait.loadGallery('masked', data['portrait-images-masked'], data['portrait-index-masked'] || 0);
+      } else {
+        Portrait.loadGallery('masked', [], 0);
+      }
+
+      // Active mode
+      if (data['portrait-active-mode']) {
+        Portrait.setActiveMode(data['portrait-active-mode']);
+      } else {
+        Portrait.setActiveMode('normal');
       }
     }
   },
@@ -290,9 +301,23 @@ const App = {
       data[containerId] = Array.from(dots).map(d => d.classList.contains('filled'));
     });
 
-    const portraitImg = document.getElementById('portrait-img');
-    if (portraitImg && portraitImg.style.display !== 'none' && portraitImg.src) {
-      data['portrait-src'] = portraitImg.src;
+    if (window.Portrait) {
+      // Normal gallery
+      const normalImages = Portrait.getImages('normal');
+      if (normalImages && normalImages.length > 0) {
+        data['portrait-images'] = normalImages;
+        data['portrait-index'] = Portrait.getCurrentIndex('normal');
+      }
+
+      // Masked gallery
+      const maskedImages = Portrait.getImages('masked');
+      if (maskedImages && maskedImages.length > 0) {
+        data['portrait-images-masked'] = maskedImages;
+        data['portrait-index-masked'] = Portrait.getCurrentIndex('masked');
+      }
+
+      // Active mode
+      data['portrait-active-mode'] = Portrait.getActiveMode();
     }
 
     return data;

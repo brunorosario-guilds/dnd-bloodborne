@@ -613,6 +613,201 @@ input[type="text"].skill-item__mod {
   border: 1px solid rgba(61, 43, 31, 0.2);
   padding: 2mm;
   background: rgba(244, 228, 193, 0.1);
+  column-count: 4;
+  column-gap: 4mm;
+}
+
+.skills-section .section-title {
+  column-span: all;
+  display: block;
+  margin-bottom: 2mm;
+}
+
+.skill-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 0.5mm 0;
+  font-size: var(--fs-xs);
+  line-height: 1.3;
+  break-inside: avoid;
+}
+
+.skill-item__name {
+  font-family: var(--font-body);
+  color: var(--ink-brown);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+input[type="text"].skill-item__mod {
+  width: 24px;
+  height: 12px;
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  border: none !important;
+  background: transparent;
+  color: var(--ink-mid);
+  text-align: center;
+  pointer-events: none;
+  padding: 0;
+  margin: 0;
+  box-shadow: none !important;
+  flex-shrink: 0;
+}
+
+.skill-item__ability {
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  color: var(--ink-light);
+  font-style: italic;
+}
+
+.skill-group {
+  break-inside: avoid;
+  margin-bottom: 2mm;
+}
+
+.skill-group-header {
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  font-weight: var(--fw-bold);
+  color: var(--blood-red);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 5px;
+  margin-bottom: 2px;
+  border-bottom: 1px solid rgba(138, 3, 3, 0.2);
+  width: 100%;
+}
+
+.skills-section .skill-group-header:first-of-type {
+  margin-top: 0;
+}
+
+.skill-item__mod {
+  font-family: var(--font-heading);
+  font-size: var(--fs-xs);
+  width: 20px;
+  text-align: center;
+  border-bottom: 1px solid rgba(61, 43, 31, 0.2) !important;
+}
+
+/* ── Class & Level Section ──────────────────────────────────── */
+.class-section {
+  border: 1px solid rgba(61, 43, 31, 0.2);
+  padding: 2mm;
+  background: rgba(244, 228, 193, 0.1);
+}
+
+.class-section__field {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  margin-bottom: 1mm;
+  font-size: var(--fs-xs);
+}
+
+.class-section__label {
+  font-family: var(--font-heading);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--ink-brown);
+  text-transform: uppercase;
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+
+.class-section__value {
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  flex: 1;
+  border-bottom: 1px solid rgba(61, 43, 31, 0.2) !important;
+}
+
+/* ── Rito/Subclass Abilities ────────────────────────────────── */
+.rito-section {
+  border: 1px solid rgba(61, 43, 31, 0.2);
+  padding: 2mm;
+  background: rgba(244, 228, 193, 0.1);
+}
+
+.rito-section__title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--blood-crimson);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 1mm;
+}
+
+.rito-ability {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  margin-bottom: 0.5mm;
+  font-size: var(--fs-xs);
+}
+
+.rito-ability__name {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--ink-brown);
+}
+
+.rito-ability__level {
+  font-family: var(--font-heading);
+  font-size: 0.6rem;
+  color: var(--ink-light);
+}
+
+/* ── Proficiências ──────────────────────────────────────────── */
+.proficiencies-section {
+  border: 1px solid rgba(61, 43, 31, 0.2);
+  padding: 2mm;
+  background: rgba(244, 228, 193, 0.1);
+}
+
+.proficiencies-section textarea {
+  font-size: var(--fs-xs);
+  min-height: 36px;
+  border: none;
+  padding: var(--sp-1);
+  background: transparent;
+}
+
+/* ── Talento ────────────────────────────────────────────────── */
+.talent-section {
+  border: 1px solid rgba(61, 43, 31, 0.2);
+  padding: 2mm;
+  background: rgba(244, 228, 193, 0.1);
+}
+
+/* ── Descoberta ─────────────────────────────────────────────── */
+.discovery-field {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+.discovery-field__value {
+  font-family: var(--font-heading);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  text-align: center;
+  width: 36px;
+  border: 1.5px solid var(--ink-brown) !important;
+  padding: var(--sp-1);
+}
+
+/* ── Equipment Sections (Armadura, Armas, Outros) ───────────── */
+.equipment-section {
+  border: 1px solid rgba(61, 43, 31, 0.2);
+  padding: 2mm;
+  background: rgba(244, 228, 193, 0.1);
 }
 
 .equipment-section textarea {
@@ -641,13 +836,22 @@ input[type="text"].skill-item__mod {
   flex-direction: column;
   align-items: center;
   position: relative;
+  margin-top: 40px;
+}
+
+.portrait-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 25px;
 }
 
 .portrait-frame {
   position: relative;
   width: 180px;
   height: 220px;
-  overflow: hidden;
   cursor: pointer;
 }
 
@@ -662,7 +866,7 @@ input[type="text"].skill-item__mod {
 
 .portrait-frame__image-area {
   position: absolute;
-  inset: 15px;
+  inset: 17px;
   border-radius: 50%;
   overflow: hidden;
   background: rgba(244, 228, 193, 0.3);
@@ -676,6 +880,7 @@ input[type="text"].skill-item__mod {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 50%;
 }
 
 .portrait-frame__placeholder {
@@ -707,6 +912,97 @@ input[type="text"].skill-item__mod {
 }
 
 /* ── Page 2: Notes/Backstory ────────────────────────────────── */
+.portrait-nav-btn {
+  background: transparent;
+  border: none;
+  color: var(--ink-mid);
+  font-size: var(--fs-xl);
+  cursor: pointer;
+  padding: 10px;
+  transition: color 0.2s;
+}
+
+.portrait-nav-btn:hover {
+  color: var(--gold-accent);
+}
+
+.portrait-delete-btn {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111;
+  border: 1px solid rgba(138, 3, 3, 0.4);
+  border-radius: 50%;
+  color: var(--blood-crimson);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.2s;
+}
+
+.portrait-delete-btn:hover {
+  transform: translateX(-50%) scale(1.1);
+}
+
+.portrait-mode-btn {
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--page-bg);
+  border: 1px solid var(--ink-brown);
+  border-radius: 50%;
+  color: var(--ink-mid);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s;
+}
+
+.portrait-mode-btn:hover {
+  color: var(--gold-accent);
+  border-color: var(--gold-accent);
+  transform: translateX(-50%) scale(1.1);
+}
+
+.portrait-mode-btn.is-masked {
+  background: var(--blood-crimson);
+  border-color: var(--blood-crimson);
+  color: var(--page-bg);
+  box-shadow: 0 0 10px rgba(138, 3, 3, 0.4);
+}
+
+.portrait-masked-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  overflow: visible;
+  transition: opacity 0.3s;
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 6px;
+  color: var(--blood-crimson);
+}
+
+.portrait-frame.is-masked .portrait-masked-text {
+  opacity: 1;
+}
+
 .notes-area {
   flex: 1;
   display: flex;
@@ -1132,4 +1428,321 @@ input[type="text"].skill-item__mod {
   border-color: var(--blood-crimson);
   background: rgba(138, 3, 3, 0.1);
   font-weight: var(--fw-bold);
+}
+
+/* ── Responsive Mobile Adjustments ───────────────────────────── */
+@media screen and (max-width: 800px) {
+  .skills-section {
+    column-count: 2;
+  }
+  
+  @media screen and (max-width: 480px) {
+    .skills-section {
+      column-count: 1;
+    }
+    
+    .char-name-input {
+      font-size: var(--fs-md);
+      max-width: 100%;
+    }
+  }
+
+  .cloud-modal__content, .crop-modal__content {
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: var(--sp-6);
+  }
+
+  .dm-panel {
+    width: calc(100vw - 40px);
+    right: 20px;
+    top: 70px;
+  }
+}
+
+/* ── Collapsible Sections (Pure CSS State) ────────────────────── */
+.collapsible-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.collapsible-header {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+.collapsible-controls {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: center;
+}
+
+.ctrl-btn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--ink-brown);
+  transition: all var(--transition-fast);
+}
+
+.ctrl-btn svg {
+}
+
+.cloud-modal__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  margin-top: var(--sp-2);
+}
+
+.cloud-btn {
+  font-family: var(--font-heading);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
+  padding: var(--sp-3);
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s;
+}
+
+.cloud-btn--login {
+  background: 
+    linear-gradient(135deg, rgba(80,0,0,0.8) 0%, rgba(138,3,3,0.9) 40%, rgba(40,0,0,0.9) 100%),
+    url('data:image/svg+xml;utf8,<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="8" fill="%233a0000" opacity="0.3" /><circle cx="30" cy="20" r="12" fill="%231a0000" opacity="0.4" /><circle cx="15" cy="35" r="5" fill="%235a0000" opacity="0.2" /></svg>');
+  background-color: #600;
+  color: #fff;
+  border: none;
+  text-shadow: 1px 1px 2px #000;
+  border-radius: 2px;
+}
+
+.cloud-btn--login:hover {
+  background: 
+    linear-gradient(135deg, rgba(100,0,0,0.9) 0%, rgba(188,3,3,1) 40%, rgba(60,0,0,1) 100%),
+    url('data:image/svg+xml;utf8,<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="8" fill="%233a0000" opacity="0.3" /><circle cx="30" cy="20" r="12" fill="%231a0000" opacity="0.4" /><circle cx="15" cy="35" r="5" fill="%235a0000" opacity="0.2" /></svg>');
+  color: #fff;
+  box-shadow: 0 0 20px rgba(188, 3, 3, 0.6);
+  transform: scale(1.02);
+}
+
+.cloud-btn--register {
+  background: transparent;
+  color: #fff;
+  border: none;
+  margin-top: var(--sp-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+}
+
+.moon-icon {
+  transition: color 0.3s;
+  font-size: 1.2em;
+}
+
+.cloud-btn--register:hover {
+  background: transparent;
+  color: #fff;
+  border: none;
+}
+
+.cloud-btn--register:hover .moon-icon {
+  color: var(--blood-crimson);
+}
+
+/* ── DM Panel (Floating Sidebar) ─────────────────────────────── */
+.dm-panel {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  width: 300px;
+  max-height: calc(100vh - 100px);
+  background: var(--parchment-light);
+  border: 2px solid var(--gold-accent);
+  box-shadow: var(--shadow-deep);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: var(--sp-4);
+  transition: transform var(--transition-base), opacity var(--transition-base);
+}
+
+.dm-panel.hidden {
+  transform: translateX(120%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dm-panel__title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-sm);
+  color: var(--blood-crimson);
+  text-transform: uppercase;
+  text-align: center;
+  border-bottom: 1px solid var(--ink-brown);
+  padding-bottom: var(--sp-2);
+  margin-bottom: var(--sp-4);
+  letter-spacing: 0.05em;
+}
+
+.dm-sheet-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.dm-sheet-item {
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  color: var(--ink-black);
+  padding: var(--sp-2);
+  margin-bottom: var(--sp-2);
+  background: rgba(244, 228, 193, 0.3);
+  border: 1px solid rgba(61, 43, 31, 0.2);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.dm-sheet-item:hover {
+  border-color: var(--gold-accent);
+  background: rgba(244, 228, 193, 0.8);
+}
+
+.dm-sheet-item.active {
+  border-color: var(--blood-crimson);
+  background: rgba(138, 3, 3, 0.1);
+  font-weight: var(--fw-bold);
+}
+
+/* ── Responsive Mobile Adjustments ───────────────────────────── */
+@media screen and (max-width: 800px) {
+  .skills-section {
+    column-count: 2;
+  }
+  
+  @media screen and (max-width: 480px) {
+    .skills-section {
+      column-count: 1;
+    }
+    
+    .char-name-input {
+      font-size: 1.8rem;
+      max-width: 100%;
+    }
+  }
+
+  .cloud-modal__content, .crop-modal__content {
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: var(--sp-6);
+  }
+
+  .dm-panel {
+    width: calc(100vw - 40px);
+    right: 20px;
+    top: 70px;
+  }
+}
+
+/* ── Collapsible Sections (Pure CSS State) ────────────────────── */
+.collapsible-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.collapsible-header {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+.collapsible-controls {
+  display: none;
+  gap: var(--sp-2);
+  align-items: center;
+}
+
+.ctrl-btn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--ink-brown);
+  transition: all var(--transition-fast);
+}
+
+.ctrl-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.ctrl-btn:hover {
+  color: var(--gold-accent);
+}
+
+/* Collapse Arrow Transition */
+.ctrl-collapse svg {
+  transition: transform var(--transition-base);
+}
+
+.col-cb:checked ~ .collapsible-header .ctrl-collapse svg {
+  transform: rotate(-90deg);
+}
+
+/* Content Hiding (Mobile Only) */
+@media screen and (max-width: 800px) {
+  .collapsible-controls {
+    display: flex;
+  }
+  
+  .col-cb:checked ~ .collapsible-content {
+    display: none !important;
+  }
+}
+
+.collapsible-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Lock state styling */
+.lck-cb:checked ~ .collapsible-header .ctrl-lock {
+  color: var(--blood-crimson);
+}
+
+.lck-cb:checked ~ .collapsible-header .ctrl-collapse {
+  pointer-events: none;
+  opacity: 0.2;
+}
+
+.collapsible-header > span:first-child {
+  flex: 1;
+}
+
+.col-cb, .lck-cb {
+  display: none !important;
+}
+
+@media (max-width: 800px) {
+  .notes-area textarea {
+    min-height: 200px;
+  }
 }
