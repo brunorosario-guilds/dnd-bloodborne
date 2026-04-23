@@ -97,6 +97,7 @@ const App = {
       'natureza': 'inteligencia',
       'religiao': 'inteligencia',
       'animais': 'sabedoria',
+      'intuicao': 'sabedoria',
       'medicina': 'sabedoria',
       'percepcao': 'sabedoria',
       'sobrevivencia': 'sabedoria',
