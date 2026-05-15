@@ -394,7 +394,7 @@ const Portrait = {
     const srcImg = new Image();
     srcImg.onload = () => {
       ctx.drawImage(srcImg, centerX, centerY, scaledW, scaledH);
-      const dataUrl = canvas.toDataURL('image/png');
+      const dataUrl = canvas.toDataURL('image/webp', 0.6); // Usa WebP comprimido para evitar limite de payload no Supabase
       
       // Save to active gallery
       const gallery = this._galleries[this._activeMode];
